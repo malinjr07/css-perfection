@@ -4,3 +4,9 @@ export type selectBoxProps = {
   dataArr: selectOptionType[];
 };
 
+export type buttonProps = {
+  isLarge?: true;
+  actionCb: () => void;
+  title: string;
+};
+

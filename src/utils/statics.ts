@@ -41,7 +41,26 @@ export const dateTimeOptions: selectOptionType[] = [
     value: '승인일시순',
   },
 ];
+
+export const viewLimitOptions: selectOptionType[] = [
+  {
+    title: '50개씩 보기',
+    value: '50개씩 보기',
+  },
+  {
+    title: '100개씩 보기',
+    value: '100개씩 보기',
+  },
+  {
+    title: '250개씩 보기',
+    value: '250개씩 보기',
+  },
+];
 export const statusOption: selectOptionType[] = [
+  {
+    title: '승인상태 변경',
+    value: '',
+  },
   {
     title: '신청일시순',
     value: '신청일시순',
