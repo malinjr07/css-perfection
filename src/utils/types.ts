@@ -1,7 +1,7 @@
 export type selectOptionType = { title: string; value: string };
 
 export type tableDataType = {
-  [key: string]: string;
+  [key: string]: { title: string; size: string };
 };
 
 export type selectBoxProps = {
