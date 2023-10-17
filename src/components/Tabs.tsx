@@ -13,7 +13,7 @@ const Tabs = () => {
                 `w-[130px] first:rounded-l-lg last:rounded-r-lg py-2.5 text-sm leading-5
                   ${
                     selected
-                      ? 'text-white bg-[#2A3958] font-medium hover:text-white'
+                      ? 'text-white bg-[#2A3958] font-medium'
                       : 'bg-[#EBEEF3] text-[#B1B4BB] font-normal'
                   }`
               }
