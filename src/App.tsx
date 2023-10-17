@@ -1,35 +1,22 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import Tabs from './components/Tabs';
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
+    <section className='container py-6 flex flex-col flex-wrap justify-start items-start '>
+      <div className='flex w-full py-3 border-transparent border border-b-[#D7D8DA] flex-row items-center justify-start gap-[14px] '>
+        <h1 className='text-[#0B101A] text-2xl font-bold leading-7 '>
+          회원상세
+        </h1>
+        <p className='text-[#FF4D4F] font-medium text-sm leading-4 '>
+          ˙ 필수항목
         </p>
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+      <div className='my-3 w-full flex flex-row justify-start items-start '>
+        <Tabs />
+      </div>
+    </section>
+  );
 }
 
-export default App
+export default App;
+
