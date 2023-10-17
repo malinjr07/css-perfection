@@ -7,47 +7,47 @@
 @layer base {
   @font-face {
     font-family: 'pretendard-black';
-    src: url('./assets/pretendard/Pretendard-Black.woff');
+    src: url('../pretendard/Pretendard-Black.woff');
   }
 
   @font-face {
     font-family: 'pretendard-bold';
-    src: url('./assets/pretendard/Pretendard-Bold.woff');
+    src: url('../pretendard/Pretendard-Bold.woff');
   }
 
   @font-face {
     font-family: 'pretendard-extrabold';
-    src: url('./assets/pretendard/Pretendard-ExtraBold.woff');
+    src: url('../pretendard/Pretendard-ExtraBold.woff');
   }
 
   @font-face {
     font-family: 'pretendard-extralight';
-    src: url('./assets/pretendard/Pretendard-ExtraLight.woff');
+    src: url('../pretendard/Pretendard-ExtraLight.woff');
   }
 
   @font-face {
     font-family: 'pretendard-light';
-    src: url('./assets/pretendard/Pretendard-Light.woff');
+    src: url('../pretendard/Pretendard-Light.woff');
   }
 
   @font-face {
     font-family: 'pretendard-medium';
-    src: url('./assets/pretendard/Pretendard-Medium.woff');
+    src: url('../pretendard/Pretendard-Medium.woff');
   }
 
   @font-face {
     font-family: 'pretendard-regular';
-    src: url('./assets/pretendard/Pretendard-Regular.woff');
+    src: url('../pretendard/Pretendard-Regular.woff');
   }
 
   @font-face {
     font-family: 'pretendard-semibold';
-    src: url('./assets/pretendard/Pretendard-SemiBold.woff');
+    src: url('../pretendard/Pretendard-SemiBold.woff');
   }
 
   @font-face {
     font-family: 'pretendard-thin';
-    src: url('./assets/pretendard/Pretendard-Thin.woff');
+    src: url('../pretendard/Pretendard-Thin.woff');
   }
 
   .font-normal {
@@ -73,7 +73,7 @@
   }
 
   body {
-    @apply bg-white font-normal;
+    @apply bg-white font-normal overflow-x-hidden;
   }
 }
 

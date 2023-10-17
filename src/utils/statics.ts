@@ -56,6 +56,7 @@ export const viewLimitOptions: selectOptionType[] = [
     value: '250개씩 보기',
   },
 ];
+
 export const statusOption: selectOptionType[] = [
   {
     title: '승인상태 변경',

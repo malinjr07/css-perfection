@@ -1,12 +1,12 @@
 import Button from './components/Button';
 import Dot from './components/Dot';
 import SelectBox from './components/SelectBox';
+import Table from './components/Table';
 import Tabs from './components/Tabs';
 import {
   approvalOptions,
   dateTimeOptions,
   statusOption,
-  viewLimitOptions,
 } from './utils/statics';
 
 function App() {
@@ -44,11 +44,12 @@ function App() {
         <div className='flex gap-1 justify-start items-center'>
           <p className='text-[#5A616A] text-sm mr-4 leading-[16px] '>
             선택한 0건
-          </p>{' '}
-          <SelectBox dataArr={statusOption} />{' '}
+          </p>
+          <SelectBox dataArr={statusOption} />
           <Button actionCb={() => {}} title='저장' />
         </div>
       </div>
+      <Table />
     </section>
   );
 }
