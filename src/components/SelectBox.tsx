@@ -20,7 +20,7 @@ const SelectBox: FC<selectBoxProps> = ({ dataArr, onChangeOptionCb }) => {
             leaveFrom='opacity-100'
             leaveTo='opacity-0'
           >
-            <Listbox.Options className='absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white text-base shadow-lg'>
+            <Listbox.Options className='absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white text-base shadow-lg'>
               {dataArr.map((option, optionIdx) => (
                 <Listbox.Option
                   key={optionIdx}

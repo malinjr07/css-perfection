@@ -4,7 +4,11 @@ import Pagination from './components/Pagination';
 import SelectBox from './components/SelectBox';
 import Table from './components/Table';
 import Tabs from './components/Tabs';
-import { noApplicantModal, selectedApplicants } from './utils/signals';
+import {
+  modalContent,
+  noApplicantModal,
+  selectedApplicants,
+} from './utils/signals';
 import {
   approvalOptions,
   dateTimeOptions,
@@ -56,10 +60,23 @@ function App() {
                   /** */
                 } else {
                   noApplicantModal.value = true;
+                  modalContent.value.text = '선택된 신청건이 없습니다.';
+                  modalContent.value.type = 'warn';
                 }
               }}
             />
-            <Button actionCb={() => {}} title='저장' />
+            <Button
+              actionCb={() => {
+                if (selectedApplicants.value.length) {
+                  /** */
+                } else {
+                  noApplicantModal.value = true;
+                  modalContent.value.text = '선택된 신청건이 없습니다.';
+                  modalContent.value.type = 'warn';
+                }
+              }}
+              title='저장'
+            />
           </div>
         </div>
         <Table />
@@ -70,10 +87,9 @@ function App() {
         closeModal={() => {
           noApplicantModal.value = false;
         }}
-        type='success'
-        checkAction={() => {}}
-        cancelAction={() => {}}
-        bodyContent=''
+        // type='success'
+        // cancellable
+        // bodyContent=''
       />
     </>
   );

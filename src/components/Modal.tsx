@@ -1,15 +1,19 @@
 import { Dialog, Transition } from '@headlessui/react';
 import { FC, Fragment } from 'react';
 import { modalProps } from '../utils/types';
+import Button from './Button';
+import { modalContent } from '../utils/signals';
 
 const Modal: FC<modalProps> = ({
   isOpen,
   closeModal,
-  bodyContent,
-  checkAction,
-  cancelAction,
-  type,
+  // bodyContent,
+  // checkAction,
+  cancellable,
+  // type,
 }) => {
+  const { value } = modalContent;
+  const { type, text } = value;
   return (
     <Transition appear show={isOpen} as={Fragment}>
       <Dialog as='div' className='relative z-10' onClose={closeModal}>
@@ -58,7 +62,30 @@ const Modal: FC<modalProps> = ({
                     <i className='fa-solid fa-xmark'></i>
                   </button>
                 </div>
-                {bodyContent}
+                <div className='w-full flex flex-col gap-8 mt-4 '>
+                  <p className='text-lg font-semibold text-[#101828] '>
+                    {text}
+                  </p>
+                  <div className='flex justify-center gap-3 '>
+                    <Button
+                      title='확인'
+                      actionCb={() => {
+                        closeModal();
+                      }}
+                    />
+                    {cancellable ? (
+                      <Button
+                        variant='outlined'
+                        title='취소'
+                        actionCb={() => {
+                          closeModal();
+                        }}
+                      />
+                    ) : (
+                      ''
+                    )}
+                  </div>
+                </div>
               </Dialog.Panel>
             </Transition.Child>
           </div>

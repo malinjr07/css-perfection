@@ -1,5 +1,3 @@
-import { ReactNode } from 'react';
-
 export type selectOptionType = { title: string; value: string };
 
 export type tableDataType = {
@@ -13,15 +11,16 @@ export type selectBoxProps = {
 export type modalProps = {
   isOpen: boolean;
   closeModal: () => void;
-  checkAction: () => void;
-  bodyContent: string;
-  cancelAction?: () => void;
-  type?: 'success' | 'warn';
+  // checkAction: () => void;
+  // bodyContent: string;
+  cancellable?: true;
+  // type?: 'success' | 'warn';
 };
 
 export type buttonProps = {
   isLarge?: true;
   actionCb: () => void;
   title: string;
+  variant?: 'outlined';
 };
 
