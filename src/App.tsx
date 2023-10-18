@@ -1,24 +1,47 @@
+import AlertModal from './components/AlertModal';
 import Button from './components/Button';
+import ChangeInvestmentTypeModal from './components/ChangeInvestmentType';
 import Dot from './components/Dot';
 import Pagination from './components/Pagination';
 import SelectBox from './components/SelectBox';
 import Table from './components/Table';
 import Tabs from './components/Tabs';
 import {
-  modalContent,
-  noApplicantModal,
-  selectedApplicants,
-} from './utils/signals';
+  ModalToggleStates,
+  alertModalState,
+  noApplicantModalState,
+  rejectionModalState,
+  selectedApplicantsState,
+} from './utils/states';
 import {
   approvalOptions,
   dateTimeOptions,
   statusOption,
 } from './utils/statics';
-import Modal from './components/Modal';
+import { useState } from 'react';
 
 function App() {
+  const [alertToggleState, setAlertModalState] = useState(false);
+  const [documentToggleState, setDocumentModalState] = useState(false);
+  const [investmentTypeToggleState, setInvestmentTypeModalState] =
+    useState(false);
   return (
-    <>
+    <ModalToggleStates.Provider
+      value={{
+        alertToggleState,
+        documentToggleState,
+        investmentTypeToggleState,
+        toggleAlert: (e: boolean) => {
+          setAlertModalState(e);
+        },
+        toggleDocumentModal: (e: boolean) => {
+          setDocumentModalState(e);
+        },
+        toggleInvestTypeModal: (e: boolean) => {
+          setInvestmentTypeModalState(e);
+        },
+      }}
+    >
       <section className='container py-6 flex flex-col flex-wrap justify-start items-start '>
         <div className='flex w-full py-3 border-transparent border border-b-[#D7D8DA] flex-row items-center justify-start gap-6 '>
           <h1 className='text-[#0B101A] text-2xl font-bold leading-7 '>
@@ -50,29 +73,30 @@ function App() {
         <div className='w-full flex justify-between py-3 items-center '>
           <Button actionCb={() => {}} title='등록' />
           <div className='flex gap-1 justify-start items-center'>
-            <p className='text-[#5A616A] text-sm mr-4 leading-[16px] '>
+            <p className='text-[#5A616A] text-sm mr-4 whitespace-nowrap leading-[16px] '>
               선택한 0건
             </p>
             <SelectBox
               dataArr={statusOption}
+              className='!w-full'
               onChangeOptionCb={() => {
-                if (selectedApplicants.value.length) {
+                if (selectedApplicantsState.value.length) {
                   /** */
                 } else {
-                  noApplicantModal.value = true;
-                  modalContent.value.text = '선택된 신청건이 없습니다.';
-                  modalContent.value.type = 'warn';
+                  setAlertModalState(true);
+                  alertModalState.value.text = '선택된 신청건이 없습니다.';
+                  alertModalState.value.type = 'warn';
                 }
               }}
             />
             <Button
               actionCb={() => {
-                if (selectedApplicants.value.length) {
+                if (selectedApplicantsState.value.length) {
                   /** */
                 } else {
-                  noApplicantModal.value = true;
-                  modalContent.value.text = '선택된 신청건이 없습니다.';
-                  modalContent.value.type = 'warn';
+                  setAlertModalState(true);
+                  alertModalState.value.text = '선택된 신청건이 없습니다.';
+                  alertModalState.value.type = 'warn';
                 }
               }}
               title='저장'
@@ -81,17 +105,34 @@ function App() {
         </div>
         <Table />
         <Pagination />
+        <div className='flex flex-row flex-wrap w-full justify-start gap-4 items-center'>
+          <h4 className='w-full text-left'>Modal Buttons</h4>
+          <Button
+            actionCb={() => {
+              setInvestmentTypeModalState(true);
+            }}
+            isLarge
+            title='Change investment type'
+          />
+          <Button
+            actionCb={() => {
+              rejectionModalState.value = true;
+            }}
+            isLarge
+            title='Rejection Reason'
+          />
+          <Button
+            actionCb={() => {
+              setDocumentModalState(true);
+            }}
+            isLarge
+            title='Document Modal'
+          />
+        </div>
       </section>
-      <Modal
-        isOpen={noApplicantModal.value}
-        closeModal={() => {
-          noApplicantModal.value = false;
-        }}
-        // type='success'
-        // cancellable
-        // bodyContent=''
-      />
-    </>
+      <AlertModal />
+      <ChangeInvestmentTypeModal />
+    </ModalToggleStates.Provider>
   );
 }
 

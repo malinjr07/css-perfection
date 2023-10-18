@@ -1,21 +1,20 @@
 import { Dialog, Transition } from '@headlessui/react';
-import { FC, Fragment } from 'react';
-import { modalProps } from '../utils/types';
+import { FC, Fragment, useContext } from 'react';
 import Button from './Button';
-import { modalContent } from '../utils/signals';
+import { ModalToggleStates, alertModalState } from '../utils/states';
 
-const Modal: FC<modalProps> = ({
-  isOpen,
-  closeModal,
-  // bodyContent,
-  // checkAction,
-  cancellable,
-  // type,
-}) => {
-  const { value } = modalContent;
-  const { type, text } = value;
+const AlertModal: FC = () => {
+  const { value } = alertModalState;
+
+  const { type, text, cancellable } = value;
+
+  const { alertToggleState, toggleAlert } = useContext(ModalToggleStates);
+
+  const closeModal = () => {
+    toggleAlert(false);
+  };
   return (
-    <Transition appear show={isOpen} as={Fragment}>
+    <Transition appear show={alertToggleState} as={Fragment}>
       <Dialog as='div' className='relative z-10' onClose={closeModal}>
         <Transition.Child
           as={Fragment}
@@ -57,7 +56,7 @@ const Modal: FC<modalProps> = ({
                       } `}
                     ></i>
                   </div>
-                  {type === 'success' ? '' : ''}
+
                   <button type='button' onClick={closeModal}>
                     <i className='fa-solid fa-xmark'></i>
                   </button>
@@ -95,5 +94,5 @@ const Modal: FC<modalProps> = ({
   );
 };
 
-export default Modal;
+export default AlertModal;
 

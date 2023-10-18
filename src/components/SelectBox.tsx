@@ -2,13 +2,20 @@ import { FC, Fragment, useState } from 'react';
 import { selectBoxProps, selectOptionType } from '../utils/types';
 import { Listbox, Transition } from '@headlessui/react';
 
-const SelectBox: FC<selectBoxProps> = ({ dataArr, onChangeOptionCb }) => {
+const SelectBox: FC<selectBoxProps> = ({
+  dataArr,
+  onChangeOptionCb,
+  className = '',
+  bodyClassName = '',
+}) => {
   const [selected, setSelected] = useState<selectOptionType>(dataArr[0]);
   return (
     <Listbox value={selected} onChange={setSelected}>
       {({ open }) => (
-        <div className='relative mt-1'>
-          <Listbox.Button className='w-[150px] flex justify-between items-center cursor-pointer rounded-lg bg-white py-2.5 px-3 text-left border sm:text-sm'>
+        <div className={`relative w-[150px] ${className} `}>
+          <Listbox.Button
+            className={`w-full flex justify-between items-center py-2.5 cursor-pointer rounded-lg bg-white px-3 text-left border sm:text-sm ${bodyClassName} `}
+          >
             <span className='block truncate'>{selected.title}</span>
             <i
               className={`fa-solid ${open ? 'fa-angle-up' : 'fa-angle-down'} `}
