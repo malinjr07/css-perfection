@@ -2,7 +2,7 @@ import { FC, Fragment, useState } from 'react';
 import { selectBoxProps, selectOptionType } from '../utils/types';
 import { Listbox, Transition } from '@headlessui/react';
 
-const SelectBox: FC<selectBoxProps> = ({ dataArr }) => {
+const SelectBox: FC<selectBoxProps> = ({ dataArr, onChangeOptionCb }) => {
   const [selected, setSelected] = useState<selectOptionType>(dataArr[0]);
   return (
     <Listbox value={selected} onChange={setSelected}>
@@ -34,6 +34,9 @@ const SelectBox: FC<selectBoxProps> = ({ dataArr }) => {
                     } `
                   }
                   value={option}
+                  onClick={() => {
+                    onChangeOptionCb?.();
+                  }}
                 >
                   {({ selected }) => (
                     <>

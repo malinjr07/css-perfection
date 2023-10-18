@@ -1,3 +1,6 @@
 import { signal } from '@preact/signals-react';
 
-export const filterOptions = signal({})
+export const selectedApplicants = signal([]);
+export const noApplicantModal = signal(false);
+export const filterOptions = signal({});
+

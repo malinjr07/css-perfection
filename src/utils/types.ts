@@ -1,3 +1,5 @@
+import { ReactNode } from 'react';
+
 export type selectOptionType = { title: string; value: string };
 
 export type tableDataType = {
@@ -6,6 +8,15 @@ export type tableDataType = {
 
 export type selectBoxProps = {
   dataArr: selectOptionType[];
+  onChangeOptionCb?: () => void;
+};
+export type modalProps = {
+  isOpen: boolean;
+  closeModal: () => void;
+  checkAction: () => void;
+  bodyContent: string;
+  cancelAction?: () => void;
+  type?: 'success' | 'warn';
 };
 
 export type buttonProps = {

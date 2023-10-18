@@ -4,11 +4,13 @@ import Pagination from './components/Pagination';
 import SelectBox from './components/SelectBox';
 import Table from './components/Table';
 import Tabs from './components/Tabs';
+import { noApplicantModal, selectedApplicants } from './utils/signals';
 import {
   approvalOptions,
   dateTimeOptions,
   statusOption,
 } from './utils/statics';
+import Modal from './components/Modal';
 
 function App() {
   return (
@@ -47,13 +49,32 @@ function App() {
             <p className='text-[#5A616A] text-sm mr-4 leading-[16px] '>
               선택한 0건
             </p>
-            <SelectBox dataArr={statusOption} />
+            <SelectBox
+              dataArr={statusOption}
+              onChangeOptionCb={() => {
+                if (selectedApplicants.value.length) {
+                  /** */
+                } else {
+                  noApplicantModal.value = true;
+                }
+              }}
+            />
             <Button actionCb={() => {}} title='저장' />
           </div>
         </div>
         <Table />
         <Pagination />
       </section>
+      <Modal
+        isOpen={noApplicantModal.value}
+        closeModal={() => {
+          noApplicantModal.value = false;
+        }}
+        type='success'
+        checkAction={() => {}}
+        cancelAction={() => {}}
+        bodyContent=''
+      />
     </>
   );
 }
