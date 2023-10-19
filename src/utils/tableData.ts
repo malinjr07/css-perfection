@@ -13,6 +13,7 @@ const tableSingleData: tableDataType = {
   관리자: { title: '', size: '124px' },
   active: true,
   id: uuidv4(),
+  serial: 0,
 };
 
 const tableData: tableDataType[] = [];
@@ -40,6 +41,7 @@ for (let count = 1; count <= 1000; count++) {
       : '';
 
   tempObj.관리자.title = manager === 1 ? '김관리자' : '';
+  tempObj.serial = count;
 
   tempObj.승인여부.title =
     status === 0

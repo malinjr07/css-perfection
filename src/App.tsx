@@ -22,6 +22,7 @@ import {
   viewLimitOptions,
 } from './utils/statics';
 import { useState } from 'react';
+import tableData from './utils/tableData';
 
 function App() {
   const [alertToggleState, setAlertModalState] = useState(false);
@@ -64,8 +65,14 @@ function App() {
           <div className='flex justify-start items-center gap-2'>
             <h2 className='font-semibold text-xl text-[#0B101A] '>신청 목록</h2>
             <p className='font-medium text-sm leading-4 text-[#5A616A]'>
-              (총 100명 | 승인대기&nbsp;
-              <span className='text-[#FF4D4F] underline'>1</span>건)
+              (총 {tableData.length}명 | 승인대기&nbsp;
+              <span className='text-[#FF4D4F] underline'>
+                {
+                  tableData.filter((item) => item.승인여부.title === '승인대기')
+                    .length
+                }
+              </span>
+              건)
             </p>
           </div>
           <div className='flex justify-start items-center gap-1 '>

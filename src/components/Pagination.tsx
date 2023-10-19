@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { activePage, renderDataState } from '../utils/states';
 
-const pageLimit = renderDataState.value.length - 1;
+const pageLimit = renderDataState.value.length;
 
 const Pagination = () => {
   const active = activePage.value;

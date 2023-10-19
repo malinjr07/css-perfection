@@ -1,10 +1,19 @@
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import { tableRow } from '../utils/tableData';
+
+import {
+  activePage,
+  renderDataState,
+  selectedDataState,
+} from '../utils/states';
 import { computed } from '@preact/signals-react';
-import { activePage, renderDataState } from '../utils/states';
 
 const Table: FC = () => {
-  const tableData = computed(() => renderDataState.value[activePage.value]);
+  const tableData = computed(
+    () => renderDataState.value[activePage.value - 1]
+  ).value;
+  console.log('renderDataState.value:', renderDataState.value);
+  const [checkedData, setCheckedData] = useState<string[]>([]);
   return (
     <>
       <div className='w-full overflow-x-auto'>
@@ -15,7 +24,26 @@ const Table: FC = () => {
                 <label htmlFor={'markDataAll'} className='relative group'>
                   <input
                     type='checkbox'
-                    name='markData'
+                    name='markDataAll'
+                    checked={
+                      tableData.filter((data) => data.active === true)
+                        .length === checkedData.length
+                    }
+                    onChange={(e) => {
+                      if (e.target.checked) {
+                        const activeData = tableData.filter(
+                          (data) => data.active === true
+                        );
+
+                        activeData.forEach((data) => {
+                          setCheckedData((prevData) => [...prevData, data.id]);
+                          selectedDataState.value.push(data.id);
+                        });
+                      } else {
+                        setCheckedData([]);
+                        selectedDataState.value = [];
+                      }
+                    }}
                     className='opacity-0 -z-10 absolute w-0 h-0 peer'
                     id={'markDataAll'}
                   />
@@ -38,19 +66,32 @@ const Table: FC = () => {
             </tr>
           </thead>
           <tbody>
-            {tableData.value.map((data, dataId) => (
+            {tableData.map((data, dataId) => (
               <tr key={dataId} className=' bg-white even:bg-[#F9F9FB] '>
                 <td className='min-w-[53px] text-center mx-auto min-h-[44px] '>
-                  <label
-                    htmlFor={'markData' + dataId}
-                    className='relative group'
-                  >
+                  <label htmlFor={data.id} className='relative group'>
                     <input
                       type='checkbox'
+                      checked={!!checkedData.find((el) => el === data.id)}
+                      onChange={(e) => {
+                        if (e.target.checked) {
+                          selectedDataState.value.push(data.id);
+                          setCheckedData((prevValue) => [
+                            ...prevValue,
+                            data.id,
+                          ]);
+                        } else {
+                          const updatedArr = selectedDataState.value.filter(
+                            (item) => item !== data.id
+                          );
+                          selectedDataState.value = updatedArr;
+                          setCheckedData(updatedArr);
+                        }
+                      }}
                       name='markData'
-                      disabled={data.active}
+                      disabled={!data.active}
                       className='opacity-0 -z-10 absolute w-0 h-0 peer'
-                      id={'markData' + dataId}
+                      id={data.id}
                     />
                     <span className='w-4 h-4 flex mx-auto rounded bg-white text-white shadow border border-[#D7D8DA] peer-checked:border-blue-500 peer-checked:bg-blue-500 peer-disabled:bg-[#DDE0E5] peer-disabled:text-[#DDE0E5] text-[10px] '>
                       <i className='fa-solid m-auto fa-check'></i>
@@ -66,7 +107,7 @@ const Table: FC = () => {
                     minHeight: '44px',
                   }}
                 >
-                  <span>{dataId + 1}</span>
+                  <span>{data.serial}</span>
                 </td>
                 {Object.keys(data).map((key, id) => (
                   <td

@@ -19,6 +19,7 @@ export const dataLimitState = signal(
   parseInt(viewLimitOptions[0].value.toString())
 );
 export const investmentFormDocument = signal<File[]>([]);
+export const selectedDataState = signal<string[]>([]);
 export const noApplicantModalState = signal(false);
 export const rejectionModalState = signal(false);
 export const documentModalState = signal(false);
