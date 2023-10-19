@@ -1,7 +1,10 @@
 import { FC } from 'react';
-import tableData, { tableRow } from '../utils/tableData';
+import { tableRow } from '../utils/tableData';
+import { computed } from '@preact/signals-react';
+import { activePage, renderDataState } from '../utils/states';
 
 const Table: FC = () => {
+  const tableData = computed(() => renderDataState.value[activePage.value]);
   return (
     <>
       <div className='w-full overflow-x-auto'>
@@ -35,7 +38,7 @@ const Table: FC = () => {
             </tr>
           </thead>
           <tbody>
-            {tableData.map((data, dataId) => (
+            {tableData.value.map((data, dataId) => (
               <tr key={dataId} className=' bg-white even:bg-[#F9F9FB] '>
                 <td className='min-w-[53px] text-center mx-auto min-h-[44px] '>
                   <label
@@ -108,72 +111,6 @@ const Table: FC = () => {
           </tbody>
         </table>
       </div>
-      {/*  <div className='container'>
-        <table className='block'>
-          <tr>
-            <th>title</th>
-            <th>asdf</th>
-            <th>title</th>
-            <th>adfasdf</th>
-            <th>asdf</th>
-            <th>title</th>
-            <th>adfasdf</th>
-            <th>asdf</th>
-            <th>title</th>
-            <th>adfasdf</th>
-            <th>asdf</th>
-            <th>title</th>
-            <th>adfasdf</th>
-            <th>asdf</th>
-            <th>title</th>
-            <th>adfasdf</th>
-            <th>asdf</th>
-            <th>title</th>
-            <th>adfasdf</th>
-            <th>asdf</th>
-            <th>title</th>
-            <th>adfasdf</th>
-            <th>asdf</th>
-            <th>title</th>
-            <th>adfasdf</th>
-            <th>asdf</th>
-            <th>title</th>
-          </tr>
-          <tr>
-            <td>
-              adfasdf Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-              Enim voluptate numquam eligendi aperiam perspiciatis vero id
-              provident veniam minima illum.
-            </td>
-            <td>asdf</td>
-            <td>asdfasdf</td>
-            <td>adfasdf</td>
-            <td>asdf</td>
-            <td>asdfasdf</td>
-            <td>adfasdf</td>
-            <td>asdf</td>
-            <td>asdfasdf</td>
-            <td>adfasdf</td>
-            <td>asdf</td>
-            <td>asdfasdf</td>
-            <td>adfasdf</td>
-            <td>asdf</td>
-            <td>asdfasdf</td>
-            <td>adfasdf</td>
-            <td>asdf</td>
-            <td>asdfasdf</td>
-            <td>adfasdf</td>
-            <td>asdf</td>
-            <td>asdfasdf</td>
-            <td>adfasdf</td>
-            <td>asdf</td>
-            <td>asdfasdf</td>
-            <td>adfasdf</td>
-            <td>asdf</td>
-            <td>asdfasdf</td>
-          </tr>
-        </table>
-      </div> */}
     </>
   );
 };

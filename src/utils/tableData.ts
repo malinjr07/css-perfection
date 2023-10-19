@@ -51,8 +51,6 @@ for (let count = 1; count <= 1000; count++) {
       : '';
 
   tableData.push(tempObj);
-
-  console.log('🚀 ~ file: tableData.ts:33 ~ tempObj:', tempObj);
 }
 
 const tableRow: string[] = [];

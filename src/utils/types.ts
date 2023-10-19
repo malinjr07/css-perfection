@@ -1,4 +1,4 @@
-export type selectOptionType = { title: string; value: string };
+export type selectOptionType = { title: string; value: string | number };
 
 export type tableDataType = {
   [key: string]: { title: string; size: string } | any;
@@ -14,7 +14,7 @@ export type modalContext = {
 
 export type selectBoxProps = {
   dataArr: selectOptionType[];
-  onChangeOptionCb?: () => void;
+  onChangeOptionCb?: (e: selectOptionType) => void;
   className?: string;
   bodyClassName?: string;
 };

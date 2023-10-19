@@ -1,3 +1,4 @@
+import { batch } from '@preact/signals-react';
 import AlertModal from './components/AlertModal';
 import Button from './components/Button';
 import ChangeInvestmentTypeModal from './components/ChangeInvestmentType';
@@ -8,8 +9,9 @@ import Table from './components/Table';
 import Tabs from './components/Tabs';
 import {
   ModalToggleStates,
+  activePage,
   alertModalState,
-  noApplicantModalState,
+  dataLimitState,
   rejectionModalState,
   selectedApplicantsState,
 } from './utils/states';
@@ -69,7 +71,15 @@ function App() {
           <div className='flex justify-start items-center gap-1 '>
             <SelectBox dataArr={approvalOptions} />
             <SelectBox dataArr={dateTimeOptions} />
-            <SelectBox dataArr={viewLimitOptions} />
+            <SelectBox
+              dataArr={viewLimitOptions}
+              onChangeOptionCb={(e) => {
+                batch(() => {
+                  activePage.value = 1;
+                  dataLimitState.value = parseInt(e.value.toString());
+                });
+              }}
+            />
           </div>
         </div>
         <div className='w-full flex justify-between py-3 items-center '>

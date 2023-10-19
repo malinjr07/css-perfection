@@ -165,7 +165,7 @@ const ChangeInvestmentTypeModal: FC = () => {
                                 'jpg, jpeg, gif, png, pdf 파일만 등록 가능합니다.';
                             } else if (largeFile) {
                               toggleAlert(true);
-                              console.log('alertModalState.value.isOpen:');
+
                               alertModalState.value.text =
                                 '최대 100MB까지 등록 가능합니다.';
                             } else {

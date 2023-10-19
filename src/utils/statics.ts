@@ -45,15 +45,15 @@ export const dateTimeOptions: selectOptionType[] = [
 export const viewLimitOptions: selectOptionType[] = [
   {
     title: '50개씩 보기',
-    value: '50개씩 보기',
+    value: 50,
   },
   {
     title: '100개씩 보기',
-    value: '100개씩 보기',
+    value: 100,
   },
   {
     title: '250개씩 보기',
-    value: '250개씩 보기',
+    value: 250,
   },
 ];
 

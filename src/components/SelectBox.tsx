@@ -42,7 +42,7 @@ const SelectBox: FC<selectBoxProps> = ({
                   }
                   value={option}
                   onClick={() => {
-                    onChangeOptionCb?.();
+                    onChangeOptionCb?.(option);
                   }}
                 >
                   {({ selected }) => (

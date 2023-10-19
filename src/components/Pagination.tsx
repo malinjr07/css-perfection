@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
+import { activePage, renderDataState } from '../utils/states';
 
-const pageLimit = 100;
+const pageLimit = renderDataState.value.length - 1;
 
 const Pagination = () => {
-  const [active, setActive] = useState(1);
+  const active = activePage.value;
   const [pageArr, setPageArr] = useState<number[]>([]);
 
   useEffect(() => {
@@ -35,6 +36,7 @@ const Pagination = () => {
       }
       setPageArr(tempArr);
     }
+    //eslint-disable-next-line
   }, [active]);
 
   return (
@@ -43,7 +45,7 @@ const Pagination = () => {
         type='button'
         disabled={active === 1}
         onClick={() => {
-          setActive(1);
+          activePage.value = 1;
         }}
         className={`w-10 h-10 rounded justify-center flex items-center hover:text-white hover:bg-[#2A3958]/60 text-[#A1A1A1] disabled:hover:bg-white disabled:hover:text-[#a1a1a1] disabled:cursor-not-allowed `}
       >
@@ -53,7 +55,7 @@ const Pagination = () => {
         type='button'
         disabled={active === 1}
         onClick={() => {
-          setActive(active - 1);
+          activePage.value = active - 1;
         }}
         className={`w-10 h-10 rounded justify-center flex items-center hover:text-white hover:bg-[#2A3958]/60 text-[#A1A1A1] disabled:hover:bg-white disabled:hover:text-[#a1a1a1] disabled:cursor-not-allowed `}
       >
@@ -64,7 +66,7 @@ const Pagination = () => {
           key={el}
           type='button'
           onClick={() => {
-            setActive(el);
+            activePage.value = el;
           }}
           className={`w-10 h-10 rounded justify-center flex items-center hover:text-white hover:bg-[#2A3958]/60 ${
             active === el
@@ -79,7 +81,7 @@ const Pagination = () => {
         type='button'
         disabled={active === pageLimit}
         onClick={() => {
-          setActive(active + 1);
+          activePage.value = active + 1;
         }}
         className={`w-10 h-10 rounded justify-center flex items-center hover:text-white hover:bg-[#2A3958]/60 text-[#A1A1A1] disabled:hover:bg-white disabled:hover:text-[#a1a1a1] disabled:cursor-not-allowed`}
       >
@@ -96,7 +98,7 @@ const Pagination = () => {
             count--;
           }
           setPageArr(tempArr);
-          setActive(pageLimit);
+          activePage.value = pageLimit;
         }}
         className={`w-10 h-10 rounded justify-center flex items-center hover:text-white hover:bg-[#2A3958]/60 text-[#A1A1A1] disabled:hover:bg-white disabled:hover:text-[#a1a1a1] disabled:cursor-not-allowed`}
       >

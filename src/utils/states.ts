@@ -1,6 +1,8 @@
-import { signal } from '@preact/signals-react';
+import { computed, signal } from '@preact/signals-react';
 import { createContext } from 'react';
-import { modalContext } from './types';
+import { modalContext, tableDataType } from './types';
+import { viewLimitOptions } from './statics';
+import tableData from './tableData';
 
 export const ModalToggleStates = createContext<modalContext>({
   alertToggleState: false,
@@ -12,6 +14,10 @@ export const ModalToggleStates = createContext<modalContext>({
 });
 
 export const selectedApplicantsState = signal([]);
+export const activePage = signal(1);
+export const dataLimitState = signal(
+  parseInt(viewLimitOptions[0].value.toString())
+);
 export const investmentFormDocument = signal<File[]>([]);
 export const noApplicantModalState = signal(false);
 export const rejectionModalState = signal(false);
@@ -23,4 +29,13 @@ export const alertModalState = signal({
   cancellable: false,
 });
 export const filterOptionsState = signal({});
+export const renderDataState = computed(() => {
+  const tempNestedArr: tableDataType[][] = [];
+
+  for (let i = 0; i < tableData.length; i += dataLimitState.value) {
+    const chunk = tableData.slice(i, i + dataLimitState.value);
+    tempNestedArr.push(chunk);
+  }
+  return tempNestedArr;
+});
 
