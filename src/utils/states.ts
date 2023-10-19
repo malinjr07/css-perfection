@@ -29,6 +29,8 @@ export const alertModalState = signal({
   text: '',
   type: '',
   cancellable: false,
+  cancelAction: (e?: any) => {},
+  approveAction: (e?: any) => {},
 });
 export const filterOptionsState = signal({});
 export const renderDataState = computed(() => {

@@ -6,7 +6,7 @@ import { ModalToggleStates, alertModalState } from '../utils/states';
 const AlertModal: FC = () => {
   const { value } = alertModalState;
 
-  const { type, text, cancellable } = value;
+  const { type, text, cancellable, approveAction, cancelAction } = value;
 
   const { alertToggleState, toggleAlert } = useContext(ModalToggleStates);
 
@@ -69,7 +69,7 @@ const AlertModal: FC = () => {
                     <Button
                       title='확인'
                       actionCb={() => {
-                        closeModal();
+                        type ? approveAction() : closeModal();
                       }}
                     />
                     {cancellable ? (
@@ -77,7 +77,7 @@ const AlertModal: FC = () => {
                         variant='outlined'
                         title='취소'
                         actionCb={() => {
-                          closeModal();
+                          cancelAction();
                         }}
                       />
                     ) : (

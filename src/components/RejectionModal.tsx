@@ -1,16 +1,13 @@
 import { Dialog, Transition } from '@headlessui/react';
-import { FC, Fragment, useContext, useRef, useState } from 'react';
+import { FC, Fragment, useContext, useState } from 'react';
 import Button from './Button';
-import {
-  ModalToggleStates,
-  alertModalState,
-  investmentFormDocument,
-} from '../utils/states';
+import { ModalToggleStates, alertModalState } from '../utils/states';
 import Dot from './Dot';
-import SelectBox from './SelectBox';
 
 const RejectionModal: FC = () => {
-  const [fileState, setFileState] = useState<File[]>([]);
+  const [checkedValue, setCheckedValue] = useState<string[]>([]);
+  const [noteText, setNoteText] = useState<string>('');
+  console.log('🚀 ~ file: RejectionModal.tsx:9 ~ checkedValue:', checkedValue);
 
   const {
     toggleAlert,
@@ -18,11 +15,10 @@ const RejectionModal: FC = () => {
 
     toggleRejectionModal,
   } = useContext(ModalToggleStates);
+
   const closeModal = () => {
     toggleRejectionModal(false);
-    setFileState([]);
   };
-  const fileRef = useRef<HTMLInputElement>(null);
 
   return (
     <Transition appear show={rejectionModalState} as={Fragment}>
@@ -83,14 +79,26 @@ const RejectionModal: FC = () => {
                           <Dot />
                         </span>
                       </div>
-                      <div className='w-[78.72%] ml-auto gap-2 flex flex-col justify-start items-start flex-wrap px-2 py-1.5 bg-white'>
+                      <div className='w-[78.72%] ml-auto gap-2 flex flex-col justify-start items-start flex-wrap px-5 py-4 bg-white'>
                         <label
                           htmlFor={'서류식별불가'}
                           className='relative flex flex-row justify-start items-center gap-2 group'
                         >
                           <input
                             type='checkbox'
-                            name='서류식별불가'
+                            onChange={(e) => {
+                              const tempArr = [...checkedValue];
+                              if (e.target.checked) {
+                                setCheckedValue([...tempArr, e.target.value]);
+                              } else {
+                                setCheckedValue(
+                                  tempArr.filter(
+                                    (item) => item !== e.target.value
+                                  )
+                                );
+                              }
+                            }}
+                            value='서류식별불가'
                             id='서류식별불가'
                             className='opacity-0 -z-10 absolute w-0 h-0 peer'
                           />
@@ -107,7 +115,19 @@ const RejectionModal: FC = () => {
                         >
                           <input
                             type='checkbox'
-                            name='필수서류누락'
+                            onChange={(e) => {
+                              const tempArr = [...checkedValue];
+                              if (e.target.checked) {
+                                setCheckedValue([...tempArr, e.target.value]);
+                              } else {
+                                setCheckedValue(
+                                  tempArr.filter(
+                                    (item) => item !== e.target.value
+                                  )
+                                );
+                              }
+                            }}
+                            value='필수서류누락'
                             id='필수서류누락'
                             className='opacity-0 -z-10 absolute w-0 h-0 peer'
                           />
@@ -124,7 +144,19 @@ const RejectionModal: FC = () => {
                         >
                           <input
                             type='checkbox'
-                            name='서류의내용이등록된회원정보와다름'
+                            onChange={(e) => {
+                              const tempArr = [...checkedValue];
+                              if (e.target.checked) {
+                                setCheckedValue([...tempArr, e.target.value]);
+                              } else {
+                                setCheckedValue(
+                                  tempArr.filter(
+                                    (item) => item !== e.target.value
+                                  )
+                                );
+                              }
+                            }}
+                            value='서류의내용이등록된회원정보와다름'
                             id='서류의내용이등록된회원정보와다름'
                             className='opacity-0 -z-10 absolute w-0 h-0 peer'
                           />
@@ -141,7 +173,19 @@ const RejectionModal: FC = () => {
                         >
                           <input
                             type='checkbox'
-                            name='서류에'
+                            onChange={(e) => {
+                              const tempArr = [...checkedValue];
+                              if (e.target.checked) {
+                                setCheckedValue([...tempArr, e.target.value]);
+                              } else {
+                                setCheckedValue(
+                                  tempArr.filter(
+                                    (item) => item !== e.target.value
+                                  )
+                                );
+                              }
+                            }}
+                            value='서류에'
                             id='서류에'
                             className='opacity-0 -z-10 absolute w-0 h-0 peer'
                           />
@@ -159,7 +203,19 @@ const RejectionModal: FC = () => {
                         >
                           <input
                             type='checkbox'
-                            name='유효기간이'
+                            onChange={(e) => {
+                              const tempArr = [...checkedValue];
+                              if (e.target.checked) {
+                                setCheckedValue([...tempArr, e.target.value]);
+                              } else {
+                                setCheckedValue(
+                                  tempArr.filter(
+                                    (item) => item !== e.target.value
+                                  )
+                                );
+                              }
+                            }}
+                            value='유효기간이'
                             id='유효기간이'
                             className='opacity-0 -z-10 absolute w-0 h-0 peer'
                           />
@@ -176,7 +232,19 @@ const RejectionModal: FC = () => {
                         >
                           <input
                             type='checkbox'
-                            name='직접입력'
+                            onChange={(e) => {
+                              const tempArr = [...checkedValue];
+                              if (e.target.checked) {
+                                setCheckedValue([...tempArr, e.target.value]);
+                              } else {
+                                setCheckedValue(
+                                  tempArr.filter(
+                                    (item) => item !== e.target.value
+                                  )
+                                );
+                              }
+                            }}
+                            value='직접입력'
                             id='직접입력'
                             className='opacity-0 -z-10 absolute w-0 h-0 peer'
                           />
@@ -186,7 +254,15 @@ const RejectionModal: FC = () => {
                           <p className='text-sm leading-4 font-normal text-[#0B101A]'>
                             직접 입력
                           </p>
-                        </label>
+                        </label>{' '}
+                        <textarea
+                          rows={6}
+                          value={noteText}
+                          onChange={(e) => setNoteText(e.target.value)}
+                          className='resize-none w-full p-3 rounded-lg border border-[#D7D8DA] disabled:bg-[#DDE0E5] disabled:text-[#B1B4BB] '
+                          disabled={!checkedValue.includes('직접입력')}
+                          placeholder='사유 입력'
+                        ></textarea>
                       </div>
                     </div>
                   </div>
@@ -195,7 +271,25 @@ const RejectionModal: FC = () => {
                   <Button
                     title='확인'
                     actionCb={() => {
-                      closeModal();
+                      if (
+                        (checkedValue.includes('직접입력') && noteText) ||
+                        checkedValue.length
+                      ) {
+                        alertModalState.value.text =
+                          '선택된 2명의 승인상태를 변경하시겠습니까?';
+                        alertModalState.value.cancellable = true;
+
+                        alertModalState.value.cancelAction = () => {
+                          toggleRejectionModal(false);
+                        };
+                      } else {
+                        alertModalState.value.approveAction = () => {
+                          toggleRejectionModal(true);
+                        };
+                        alertModalState.value.text =
+                          '필수입력항목을 입력해주세요.';
+                      }
+                      toggleAlert(true);
                     }}
                   />
 
