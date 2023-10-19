@@ -7,6 +7,8 @@ export type modalContext = {
   alertToggleState: boolean;
   documentToggleState: boolean;
   investmentTypeToggleState: boolean;
+  rejectionModalState: boolean;
+  toggleRejectionModal: (e: boolean) => void;
   toggleAlert: (e: boolean) => void;
   toggleDocumentModal: (e: boolean) => void;
   toggleInvestTypeModal: (e: boolean) => void;

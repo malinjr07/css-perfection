@@ -12,7 +12,6 @@ const Table: FC = () => {
   const tableData = computed(
     () => renderDataState.value[activePage.value - 1]
   ).value;
-  console.log('renderDataState.value:', renderDataState.value);
   const [checkedData, setCheckedData] = useState<string[]>([]);
   return (
     <>
@@ -34,11 +33,12 @@ const Table: FC = () => {
                         const activeData = tableData.filter(
                           (data) => data.active === true
                         );
-
+                        const tempArr: string[] = [];
                         activeData.forEach((data) => {
-                          setCheckedData((prevData) => [...prevData, data.id]);
-                          selectedDataState.value.push(data.id);
+                          tempArr.push(data.id);
                         });
+                        setCheckedData(tempArr);
+                        selectedDataState.value = tempArr;
                       } else {
                         setCheckedData([]);
                         selectedDataState.value = [];
@@ -75,7 +75,10 @@ const Table: FC = () => {
                       checked={!!checkedData.find((el) => el === data.id)}
                       onChange={(e) => {
                         if (e.target.checked) {
-                          selectedDataState.value.push(data.id);
+                          selectedDataState.value = [
+                            ...selectedDataState.value,
+                            data.id,
+                          ];
                           setCheckedData((prevValue) => [
                             ...prevValue,
                             data.id,

@@ -73,13 +73,13 @@ const ChangeInvestmentTypeModal: FC = () => {
                       </p>
                     </div>
                     <div className='w-full flex flex-row justify-start items-start text-[#0B101A] '>
-                      <div className='w-[21.27%] flex justify-left text-base leading-none font-medium p-4 bg-[#EEF0F4] border-b border-b-white '>
+                      <div className='w-[21.27%] flex justify-left text-base leading-none font-medium p-4 bg-[#EEF0F4] '>
                         <p className=''>투자유형</p>
                         <span className='-mt-1 ml-1'>
                           <Dot />
                         </span>
                       </div>
-                      <div className='w-[78.72%] flex flex-row flex-wrap px-2 py-1.5 bg-white border-b border-b-[#D7D8DA] '>
+                      <div className='w-[78.72%] flex flex-row flex-wrap px-2 py-1.5 bg-white '>
                         <SelectBox
                           className='!w-[47.64%]'
                           bodyClassName='!py-[7px]'

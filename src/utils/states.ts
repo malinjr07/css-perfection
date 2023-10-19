@@ -8,12 +8,13 @@ export const ModalToggleStates = createContext<modalContext>({
   alertToggleState: false,
   documentToggleState: false,
   investmentTypeToggleState: false,
+  rejectionModalState: false,
+  toggleRejectionModal: () => {},
   toggleAlert: () => {},
   toggleDocumentModal: () => {},
   toggleInvestTypeModal: () => {},
 });
 
-export const selectedApplicantsState = signal([]);
 export const activePage = signal(1);
 export const dataLimitState = signal(
   parseInt(viewLimitOptions[0].value.toString())

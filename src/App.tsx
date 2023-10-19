@@ -1,4 +1,4 @@
-import { batch } from '@preact/signals-react';
+import { batch, effect } from '@preact/signals-react';
 import AlertModal from './components/AlertModal';
 import Button from './components/Button';
 import ChangeInvestmentTypeModal from './components/ChangeInvestmentType';
@@ -12,8 +12,7 @@ import {
   activePage,
   alertModalState,
   dataLimitState,
-  rejectionModalState,
-  selectedApplicantsState,
+  selectedDataState,
 } from './utils/states';
 import {
   approvalOptions,
@@ -23,18 +22,26 @@ import {
 } from './utils/statics';
 import { useState } from 'react';
 import tableData from './utils/tableData';
+import RejectionModal from './components/RejectionModal';
 
 function App() {
   const [alertToggleState, setAlertModalState] = useState(false);
+  const [rejectionModalState, setRejectionModalState] = useState(false);
   const [documentToggleState, setDocumentModalState] = useState(false);
   const [investmentTypeToggleState, setInvestmentTypeModalState] =
     useState(false);
+
   return (
     <ModalToggleStates.Provider
       value={{
         alertToggleState,
         documentToggleState,
         investmentTypeToggleState,
+        rejectionModalState,
+
+        toggleRejectionModal: (e: boolean) => {
+          setRejectionModalState(e);
+        },
         toggleAlert: (e: boolean) => {
           setAlertModalState(e);
         },
@@ -96,17 +103,17 @@ function App() {
             }}
             title='등록'
           />
+
           <div className='flex gap-1 justify-start items-center'>
             <p className='text-[#5A616A] text-sm mr-4 whitespace-nowrap leading-[16px] '>
-              선택한 0건
+              선택한 {selectedDataState.value.length}건
             </p>
+
             <SelectBox
               dataArr={statusOption}
               className='!w-full'
               onChangeOptionCb={() => {
-                if (selectedApplicantsState.value.length) {
-                  /** */
-                } else {
+                if (!selectedDataState.value.length) {
                   setAlertModalState(true);
                   alertModalState.value.text = '선택된 신청건이 없습니다.';
                   alertModalState.value.type = 'warn';
@@ -115,8 +122,31 @@ function App() {
             />
             <Button
               actionCb={() => {
-                if (selectedApplicantsState.value.length) {
-                  /** */
+                if (selectedDataState.value.length) {
+                  const selectedUsers = tableData.filter((item) =>
+                    selectedDataState.value.includes(item.id)
+                  );
+                  console.log(
+                    '🚀 ~ file: App.tsx:123 ~ App ~ selectedUsers:',
+                    selectedUsers
+                  );
+                  const hasApprovedUsers = selectedUsers.find(
+                    (item) => item.승인여부.title === '승인완료'
+                  );
+                  const hasRejectedUsers = selectedUsers.find(
+                    (item) => item.승인여부.title === '승인거부'
+                  );
+                  if (hasApprovedUsers) {
+                    setAlertModalState(true);
+                    alertModalState.value.text = '이미 승인 완료된 회원입니다.';
+                    alertModalState.value.type = 'warn';
+                  } else if (hasRejectedUsers) {
+                    setAlertModalState(true);
+                    alertModalState.value.text = '이미 승인 거부된 회원입니다.';
+                    alertModalState.value.type = 'warn';
+                  } else {
+                    setRejectionModalState(true);
+                  }
                 } else {
                   setAlertModalState(true);
                   alertModalState.value.text = '선택된 신청건이 없습니다.';
@@ -140,7 +170,7 @@ function App() {
           />
           <Button
             actionCb={() => {
-              rejectionModalState.value = true;
+              setRejectionModalState(true);
             }}
             isLarge
             title='Rejection Reason'
@@ -156,6 +186,7 @@ function App() {
       </section>
       <AlertModal />
       <ChangeInvestmentTypeModal />
+      <RejectionModal />
     </ModalToggleStates.Provider>
   );
 }

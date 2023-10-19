@@ -58,7 +58,7 @@ for (let count = 1; count <= 1000; count++) {
 const tableRow: string[] = [];
 
 Object.keys(tableSingleData).forEach((key) => {
-  if (!['active', 'id'].includes(key)) {
+  if (!['active', 'id', 'serial'].includes(key)) {
     tableRow.push(key);
   }
 });
