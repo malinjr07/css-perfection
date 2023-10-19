@@ -17,6 +17,7 @@ import {
   approvalOptions,
   dateTimeOptions,
   statusOption,
+  viewLimitOptions,
 } from './utils/statics';
 import { useState } from 'react';
 
@@ -68,10 +69,16 @@ function App() {
           <div className='flex justify-start items-center gap-1 '>
             <SelectBox dataArr={approvalOptions} />
             <SelectBox dataArr={dateTimeOptions} />
+            <SelectBox dataArr={viewLimitOptions} />
           </div>
         </div>
         <div className='w-full flex justify-between py-3 items-center '>
-          <Button actionCb={() => {}} title='등록' />
+          <Button
+            actionCb={() => {
+              setInvestmentTypeModalState(true);
+            }}
+            title='등록'
+          />
           <div className='flex gap-1 justify-start items-center'>
             <p className='text-[#5A616A] text-sm mr-4 whitespace-nowrap leading-[16px] '>
               선택한 0건

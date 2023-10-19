@@ -46,7 +46,7 @@ const ChangeInvestmentTypeModal: FC = () => {
               leaveFrom='opacity-100 scale-100'
               leaveTo='opacity-0 scale-95'
             >
-              <Dialog.Panel className='w-[800px] flex flex-col justify-start items-start transform overflow-hidden rounded-xl shadow-[#1018281A]/10 bg-white text-left align-middle shadow-xl transition-all'>
+              <Dialog.Panel className='w-[800px] flex flex-col justify-start items-start transform rounded-xl shadow-[#1018281A]/10 bg-white text-left align-middle shadow-xl transition-all'>
                 <div className='w-full flex justify-between items-center p-6 pb-5 '>
                   <h4 className=''>투자유형 변경</h4>
 

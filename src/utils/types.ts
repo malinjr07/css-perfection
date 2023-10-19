@@ -1,7 +1,7 @@
 export type selectOptionType = { title: string; value: string };
 
 export type tableDataType = {
-  [key: string]: { title: string; size: string };
+  [key: string]: { title: string; size: string } | any;
 };
 export type modalContext = {
   alertToggleState: boolean;
