@@ -7,7 +7,6 @@ import Dot from './Dot';
 const RejectionModal: FC = () => {
   const [checkedValue, setCheckedValue] = useState<string[]>([]);
   const [noteText, setNoteText] = useState<string>('');
-  console.log('🚀 ~ file: RejectionModal.tsx:9 ~ checkedValue:', checkedValue);
 
   const {
     toggleAlert,

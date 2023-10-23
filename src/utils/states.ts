@@ -33,11 +33,15 @@ export const alertModalState = signal({
   approveAction: (e?: any) => {},
 });
 export const filterOptionsState = signal({});
+export const sortedDataState = signal<tableDataType[]>([...tableData]);
+
 export const renderDataState = computed(() => {
   const tempNestedArr: tableDataType[][] = [];
 
-  for (let i = 0; i < tableData.length; i += dataLimitState.value) {
-    const chunk = tableData.slice(i, i + dataLimitState.value);
+  const tempData = [...sortedDataState.value];
+
+  for (let i = 0; i < tempData.length; i += dataLimitState.value) {
+    const chunk = tempData.slice(i, i + dataLimitState.value);
     tempNestedArr.push(chunk);
   }
   return tempNestedArr;

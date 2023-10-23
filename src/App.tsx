@@ -13,6 +13,7 @@ import {
   alertModalState,
   dataLimitState,
   selectedDataState,
+  sortedDataState,
 } from './utils/states';
 import {
   approvalOptions,
@@ -23,6 +24,7 @@ import {
 import { useState } from 'react';
 import tableData from './utils/tableData';
 import RejectionModal from './components/RejectionModal';
+import moment from 'moment';
 
 function App() {
   const [alertToggleState, setAlertModalState] = useState(false);
@@ -84,7 +86,30 @@ function App() {
           </div>
           <div className='flex justify-start items-center gap-1 '>
             <SelectBox dataArr={approvalOptions} />
-            <SelectBox dataArr={dateTimeOptions} />
+            <SelectBox
+              dataArr={dateTimeOptions}
+              onChangeOptionCb={(e) => {
+                const tempData = [...tableData];
+                if (e.value === '신청일시순') {
+                  tempData.sort(
+                    (prevItem, nextItem) =>
+                      moment(prevItem.신청일시.title).unix() -
+                      moment(nextItem.신청일시.title).unix()
+                  );
+                } else if (e.value === '승인일시순') {
+                  tempData.sort(
+                    (prevItem, nextItem) =>
+                      moment(prevItem.승인일시.title).unix() -
+                      moment(nextItem.승인일시.title).unix()
+                  );
+                }
+                console.log('🚀 ~ file: App.tsx:93 ~ tempData:', tempData);
+                batch(() => {
+                  activePage.value = 1;
+                  sortedDataState.value = [...tempData];
+                });
+              }}
+            />
             <SelectBox
               dataArr={viewLimitOptions}
               onChangeOptionCb={(e) => {
@@ -111,7 +136,6 @@ function App() {
 
             <SelectBox
               dataArr={statusOption}
-              className='!w-full'
               onChangeOptionCb={() => {
                 if (!selectedDataState.value.length) {
                   setAlertModalState(true);
@@ -125,10 +149,6 @@ function App() {
                 if (selectedDataState.value.length) {
                   const selectedUsers = tableData.filter((item) =>
                     selectedDataState.value.includes(item.id)
-                  );
-                  console.log(
-                    '🚀 ~ file: App.tsx:123 ~ App ~ selectedUsers:',
-                    selectedUsers
                   );
                   const hasApprovedUsers = selectedUsers.find(
                     (item) => item.승인여부.title === '승인완료'
@@ -161,20 +181,6 @@ function App() {
         <Pagination />
         <div className='flex flex-row flex-wrap w-full justify-start gap-4 items-center'>
           <h4 className='w-full text-left'>Modal Buttons</h4>
-          <Button
-            actionCb={() => {
-              setInvestmentTypeModalState(true);
-            }}
-            isLarge
-            title='Change investment type'
-          />
-          <Button
-            actionCb={() => {
-              setRejectionModalState(true);
-            }}
-            isLarge
-            title='Rejection Reason'
-          />
           <Button
             actionCb={() => {
               setDocumentModalState(true);

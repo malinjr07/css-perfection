@@ -5,7 +5,7 @@ const Button: FC<buttonProps> = ({ title, actionCb, isLarge, variant }) => {
   return (
     <button
       className={`px-4 rounded-[10px] border border-[#2A3958] ${
-        isLarge ? 'py-[12.5px] w-[170px]' : 'py-2.5 w-[100px] '
+        isLarge ? 'py-[12.5px] w-[170px]' : 'py-2 w-[100px]'
       } ${
         variant === 'outlined'
           ? 'bg-transparent bg-[#2A3958]'
