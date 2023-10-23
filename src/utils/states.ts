@@ -21,10 +21,7 @@ export const dataLimitState = signal(
 );
 export const investmentFormDocument = signal<File[]>([]);
 export const selectedDataState = signal<string[]>([]);
-export const noApplicantModalState = signal(false);
-export const rejectionModalState = signal(false);
-export const documentModalState = signal(false);
-export const investmentTypeModalState = signal(false);
+
 export const alertModalState = signal({
   text: '',
   type: '',
@@ -32,7 +29,6 @@ export const alertModalState = signal({
   cancelAction: (e?: any) => {},
   approveAction: (e?: any) => {},
 });
-export const filterOptionsState = signal({});
 export const sortedDataState = signal<tableDataType[]>([...tableData]);
 
 export const renderDataState = computed(() => {
