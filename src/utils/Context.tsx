@@ -1,16 +1,32 @@
 import { ReactNode, createContext, useState } from 'react';
 import { viewLimitOptions } from './statics';
-import { baseContext, tableDataType } from './types';
+import { alertModalContent, baseContext, tableDataType } from './types';
 
 export const BaseContext = createContext<baseContext>({
   alertToggleState: false,
+  alertModalContent: {
+    text: '',
+    type: '',
+    cancellable: false,
+    cancelAction: (e?: any) => {},
+    approveAction: (e?: any) => {},
+  },
+  tableDataState: [],
   documentToggleState: false,
   investmentTypeToggleState: false,
+  investmentFormDocument: [],
   rejectionModalState: false,
-  toggleRejectionModal: () => {},
-  toggleAlert: () => {},
-  toggleDocumentModal: () => {},
-  toggleInvestTypeModal: () => {},
+  activePage: 1,
+  perPageDataLimit: viewLimitOptions[0].value,
+  setAlertModalContent: () => {},
+  setTableDataState: () => {},
+  setRejectionModalState: () => {},
+  setDocumentModalState: () => {},
+  setInvestmentFormDocument: () => {},
+  setInvestmentTypeModalState: () => {},
+  setActivePage: () => {},
+  setPerPageDataLimit: () => {},
+  setAlertModalState: () => {},
 });
 
 const ContextProvider = ({ children }: { children: ReactNode }) => {
@@ -22,38 +38,42 @@ const ContextProvider = ({ children }: { children: ReactNode }) => {
     []
   );
   const [alertToggleState, setAlertModalState] = useState(false);
-  const [alertModalContent, setAlertModalContent] = useState({
-    text: '',
-    type: '',
-    cancellable: false,
-    cancelAction: (e?: any) => {},
-    approveAction: (e?: any) => {},
-  });
+  const [alertModalContent, setAlertModalContent] = useState<alertModalContent>(
+    {
+      text: '',
+      type: '',
+      cancellable: false,
+      cancelAction: (e?: any) => {},
+      approveAction: (e?: any) => {},
+    }
+  );
   const [tableDataState, setTableDataState] = useState<tableDataType[]>([]);
   const [rejectionModalState, setRejectionModalState] = useState(false);
   const [documentToggleState, setDocumentModalState] = useState(false);
   const [investmentTypeToggleState, setInvestmentTypeModalState] =
     useState(false);
+
   return (
     <BaseContext.Provider
       value={{
         alertToggleState,
+        alertModalContent,
+        tableDataState,
         documentToggleState,
         investmentTypeToggleState,
+        investmentFormDocument,
         rejectionModalState,
-
-        toggleRejectionModal: (e: boolean) => {
-          setRejectionModalState(e);
-        },
-        toggleAlert: (e: boolean) => {
-          setAlertModalState(e);
-        },
-        toggleDocumentModal: (e: boolean) => {
-          setDocumentModalState(e);
-        },
-        toggleInvestTypeModal: (e: boolean) => {
-          setInvestmentTypeModalState(e);
-        },
+        activePage,
+        perPageDataLimit,
+        setAlertModalContent,
+        setTableDataState,
+        setRejectionModalState,
+        setDocumentModalState,
+        setInvestmentFormDocument,
+        setInvestmentTypeModalState,
+        setActivePage,
+        setPerPageDataLimit,
+        setAlertModalState,
       }}
     >
       {children}

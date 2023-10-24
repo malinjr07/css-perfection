@@ -3,15 +3,33 @@ export type selectOptionType = { title: string; value: string | number };
 export type tableDataType = {
   [key: string]: { title: string; size: string } | any;
 };
+
+export type alertModalContent = {
+  text: string;
+  type: string;
+  cancellable: boolean;
+  cancelAction?: (e?: any) => void;
+  approveAction?: (e?: any) => void;
+};
 export type baseContext = {
   alertToggleState: boolean;
   documentToggleState: boolean;
   investmentTypeToggleState: boolean;
   rejectionModalState: boolean;
-  toggleRejectionModal: (e: boolean) => void;
-  toggleAlert: (e: boolean) => void;
-  toggleDocumentModal: (e: boolean) => void;
-  toggleInvestTypeModal: (e: boolean) => void;
+  alertModalContent: alertModalContent;
+  tableDataState: tableDataType[];
+  investmentFormDocument: File[];
+  activePage: number;
+  perPageDataLimit: number;
+  setAlertModalContent: (e: alertModalContent) => void;
+  setTableDataState: (e: tableDataType[]) => void;
+  setRejectionModalState: (e: boolean) => void;
+  setDocumentModalState: (e: boolean) => void;
+  setInvestmentFormDocument: (e: File[]) => void;
+  setInvestmentTypeModalState: (e: boolean) => void;
+  setActivePage: (e: number) => void;
+  setPerPageDataLimit: (e: number) => void;
+  setAlertModalState: (e: boolean) => void;
 };
 export type modalContext = {
   alertToggleState: boolean;

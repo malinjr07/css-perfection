@@ -42,7 +42,7 @@ export const dateTimeOptions: selectOptionType[] = [
   },
 ];
 
-export const viewLimitOptions: selectOptionType[] = [
+export const viewLimitOptions: { title: string; value: number }[] = [
   {
     title: '50개씩 보기',
     value: 50,
