@@ -1,25 +1,26 @@
-import { useEffect, useState } from 'react';
-import { activePage, renderDataState } from '../utils/states';
-
-const pageLimit = renderDataState.value.length;
+import { useContext, useEffect, useState } from 'react';
+import { BaseContext } from '../utils/Context';
 
 const Pagination = () => {
-  const active = activePage.value;
+  const { activePage, tableDataState, setActivePage } = useContext(BaseContext);
   const [pageArr, setPageArr] = useState<number[]>([]);
+  const [pageLimit, setPageLimit] = useState(1);
 
   useEffect(() => {
+    const pageLimit = tableDataState.length;
+    setPageLimit(pageLimit);
     let tempArr = [];
-    let increment = active + 1;
-    let decrement = active - 1;
-    tempArr.unshift(active);
-    if (active === 1) {
+    let increment = activePage + 1;
+    let decrement = activePage - 1;
+    tempArr.unshift(activePage);
+    if (activePage === 1) {
       while (increment <= 10) {
         tempArr.push(increment);
         increment++;
       }
       setPageArr(tempArr);
-    } else if (active - 8 >= 1 && active + 5 <= pageLimit) {
-      while (active + 5 >= increment && active - 5 <= decrement) {
+    } else if (activePage - 8 >= 1 && activePage + 5 <= pageLimit) {
+      while (activePage + 5 >= increment && activePage - 5 <= decrement) {
         tempArr.push(increment);
         tempArr.unshift(decrement);
         increment++;
@@ -27,7 +28,7 @@ const Pagination = () => {
       }
 
       setPageArr(tempArr);
-    } else if (active > pageLimit - 5 && active < pageLimit) {
+    } else if (activePage > pageLimit - 5 && activePage < pageLimit) {
       tempArr = [...pageArr];
       let tempVar = pageArr[pageArr.length - 1];
       while (tempVar < pageLimit) {
@@ -37,15 +38,15 @@ const Pagination = () => {
       setPageArr(tempArr);
     }
     //eslint-disable-next-line
-  }, [active]);
+  }, [activePage]);
 
   return (
     <div className='flex w-full flex-row justify-center py-3 gap-4 '>
       <button
         type='button'
-        disabled={active === 1}
+        disabled={activePage === 1}
         onClick={() => {
-          activePage.value = 1;
+          setActivePage(1);
         }}
         className={`w-10 h-10 rounded justify-center flex items-center hover:text-white hover:bg-[#2A3958]/60 text-[#A1A1A1] disabled:hover:bg-white disabled:hover:text-[#a1a1a1] disabled:cursor-not-allowed `}
       >
@@ -53,9 +54,9 @@ const Pagination = () => {
       </button>
       <button
         type='button'
-        disabled={active === 1}
+        disabled={activePage === 1}
         onClick={() => {
-          activePage.value = active - 1;
+          setActivePage(activePage - 1);
         }}
         className={`w-10 h-10 rounded justify-center flex items-center hover:text-white hover:bg-[#2A3958]/60 text-[#A1A1A1] disabled:hover:bg-white disabled:hover:text-[#a1a1a1] disabled:cursor-not-allowed `}
       >
@@ -66,10 +67,10 @@ const Pagination = () => {
           key={el}
           type='button'
           onClick={() => {
-            activePage.value = el;
+            setActivePage(el);
           }}
           className={`w-10 h-10 rounded justify-center flex items-center hover:text-white hover:bg-[#2A3958]/60 ${
-            active === el
+            activePage === el
               ? 'bg-[#2A3958] hover:bg-[#2A3958] text-white'
               : 'text-[#A1A1A1]'
           } `}
@@ -79,9 +80,9 @@ const Pagination = () => {
       ))}
       <button
         type='button'
-        disabled={active === pageLimit}
+        disabled={activePage === pageLimit}
         onClick={() => {
-          activePage.value = active + 1;
+          setActivePage(activePage + 1);
         }}
         className={`w-10 h-10 rounded justify-center flex items-center hover:text-white hover:bg-[#2A3958]/60 text-[#A1A1A1] disabled:hover:bg-white disabled:hover:text-[#a1a1a1] disabled:cursor-not-allowed`}
       >
@@ -89,7 +90,7 @@ const Pagination = () => {
       </button>
       <button
         type='button'
-        disabled={active === pageLimit}
+        disabled={activePage === pageLimit}
         onClick={() => {
           const tempArr = [];
           let count = pageLimit;
@@ -98,7 +99,7 @@ const Pagination = () => {
             count--;
           }
           setPageArr(tempArr);
-          activePage.value = pageLimit;
+          setActivePage(pageLimit);
         }}
         className={`w-10 h-10 rounded justify-center flex items-center hover:text-white hover:bg-[#2A3958]/60 text-[#A1A1A1] disabled:hover:bg-white disabled:hover:text-[#a1a1a1] disabled:cursor-not-allowed`}
       >

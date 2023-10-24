@@ -1,22 +1,22 @@
 import { Dialog, Transition } from '@headlessui/react';
 import { FC, Fragment, useContext, useState } from 'react';
 import Button from './Button';
-import { ModalToggleStates, alertModalState } from '../utils/states';
 import Dot from './Dot';
+import { BaseContext } from '../utils/Context';
 
 const RejectionModal: FC = () => {
   const [checkedValue, setCheckedValue] = useState<string[]>([]);
   const [noteText, setNoteText] = useState<string>('');
 
   const {
-    toggleAlert,
     rejectionModalState,
-
-    toggleRejectionModal,
-  } = useContext(ModalToggleStates);
+    setAlertModalState,
+    setAlertModalContent,
+    setRejectionModalState,
+  } = useContext(BaseContext);
 
   const closeModal = () => {
-    toggleRejectionModal(false);
+    setRejectionModalState(false);
   };
 
   return (
@@ -274,21 +274,23 @@ const RejectionModal: FC = () => {
                         (checkedValue.includes('직접입력') && noteText) ||
                         checkedValue.length
                       ) {
-                        alertModalState.value.text =
-                          '선택된 2명의 승인상태를 변경하시겠습니까?';
-                        alertModalState.value.cancellable = true;
-
-                        alertModalState.value.cancelAction = () => {
-                          toggleRejectionModal(false);
-                        };
+                        setAlertModalContent({
+                          text: '선택된 2명의 승인상태를 변경하시겠습니까?',
+                          cancellable: true,
+                          cancelAction: () => {
+                            setRejectionModalState(false);
+                          },
+                        });
                       } else {
-                        alertModalState.value.approveAction = () => {
-                          toggleRejectionModal(true);
-                        };
-                        alertModalState.value.text =
-                          '필수입력항목을 입력해주세요.';
+                        setAlertModalContent({
+                          text: '필수입력항목을 입력해주세요.',
+
+                          approveAction: () => {
+                            setRejectionModalState(false);
+                          },
+                        });
                       }
-                      toggleAlert(true);
+                      setAlertModalState(true);
                     }}
                   />
 

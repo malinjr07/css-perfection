@@ -1,21 +1,24 @@
 import { Dialog, Transition } from '@headlessui/react';
 import { FC, Fragment, useContext, useRef, useState } from 'react';
 import Button from './Button';
-import {
-  ModalToggleStates,
-  alertModalState,
-  investmentFormDocument,
-} from '../utils/states';
+
 import Dot from './Dot';
 import SelectBox from './SelectBox';
+import { BaseContext } from '../utils/Context';
 
 const ChangeInvestmentTypeModal: FC = () => {
   const [fileState, setFileState] = useState<File[]>([]);
 
-  const { toggleAlert, toggleInvestTypeModal, investmentTypeToggleState } =
-    useContext(ModalToggleStates);
+  const {
+    investmentTypeToggleState,
+    setInvestmentTypeModalState,
+    setInvestmentFormDocument,
+    setAlertModalState,
+    setAlertModalContent,
+    investmentFormDocument,
+  } = useContext(BaseContext);
   const closeModal = () => {
-    toggleInvestTypeModal(false);
+    setInvestmentTypeModalState(false);
     setFileState([]);
   };
   const fileRef = useRef<HTMLInputElement>(null);
@@ -121,7 +124,8 @@ const ChangeInvestmentTypeModal: FC = () => {
                                 const tempArr = [...fileState];
                                 tempArr.splice(id, 1);
                                 setFileState(tempArr);
-                                investmentFormDocument.value = tempArr;
+
+                                setInvestmentFormDocument(tempArr);
                               }}
                             >
                               <i className='fa-solid fa-circle-xmark text-[#DDE0E5] '></i>
@@ -160,32 +164,29 @@ const ChangeInvestmentTypeModal: FC = () => {
                                 'invalidFormat Detected:',
                                 invalidFormat
                               );
-                              toggleAlert(true);
-                              alertModalState.value.text =
-                                'jpg, jpeg, gif, png, pdf 파일만 등록 가능합니다.';
+                              setAlertModalState(true);
                             } else if (largeFile) {
-                              toggleAlert(true);
+                              setAlertModalState(true);
 
-                              alertModalState.value.text =
-                                '최대 100MB까지 등록 가능합니다.';
+                              setAlertModalContent({
+                                text: '최대 100MB까지 등록 가능합니다.',
+                              });
                             } else {
                               let count = 0;
-                              let currentLength =
-                                investmentFormDocument.value.length;
+                              let currentLength = investmentFormDocument.length;
                               if (currentLength >= 10) {
                                 console.log(
                                   'File Limit Exceed!',
-                                  investmentFormDocument.value
+                                  investmentFormDocument
                                 );
-                                toggleAlert(true);
-                                alertModalState.value.text =
-                                  '최대 10개까지 등록 가능합니다.';
+                                setAlertModalState(true);
+                                setAlertModalContent({
+                                  text: '최대 10개까지 등록 가능합니다.',
+                                });
                               } else {
                                 const tempArr = [...fileState];
                                 while (currentLength <= 10 && files[count]) {
-                                  investmentFormDocument.value.push(
-                                    files[count]
-                                  );
+                                  investmentFormDocument.push(files[count]);
                                   tempArr.push(files[count]);
                                   currentLength++;
                                   count++;

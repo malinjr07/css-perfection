@@ -6,8 +6,8 @@ export type tableDataType = {
 
 export type alertModalContent = {
   text: string;
-  type: string;
-  cancellable: boolean;
+  type?: string;
+  cancellable?: boolean;
   cancelAction?: (e?: any) => void;
   approveAction?: (e?: any) => void;
 };
@@ -17,12 +17,14 @@ export type baseContext = {
   investmentTypeToggleState: boolean;
   rejectionModalState: boolean;
   alertModalContent: alertModalContent;
-  tableDataState: tableDataType[];
+  tableDataState: tableDataType[][];
   investmentFormDocument: File[];
   activePage: number;
   perPageDataLimit: number;
+  selectedData: string[];
+  setSelectedData: (e: string[]) => void;
   setAlertModalContent: (e: alertModalContent) => void;
-  setTableDataState: (e: tableDataType[]) => void;
+  setTableDataState: (e: tableDataType[][]) => void;
   setRejectionModalState: (e: boolean) => void;
   setDocumentModalState: (e: boolean) => void;
   setInvestmentFormDocument: (e: File[]) => void;
@@ -30,16 +32,6 @@ export type baseContext = {
   setActivePage: (e: number) => void;
   setPerPageDataLimit: (e: number) => void;
   setAlertModalState: (e: boolean) => void;
-};
-export type modalContext = {
-  alertToggleState: boolean;
-  documentToggleState: boolean;
-  investmentTypeToggleState: boolean;
-  rejectionModalState: boolean;
-  toggleRejectionModal: (e: boolean) => void;
-  toggleAlert: (e: boolean) => void;
-  toggleDocumentModal: (e: boolean) => void;
-  toggleInvestTypeModal: (e: boolean) => void;
 };
 
 export type selectBoxProps = {

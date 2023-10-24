@@ -1,4 +1,3 @@
-import { batch, effect } from '@preact/signals-react';
 import AlertModal from './components/AlertModal';
 import Button from './components/Button';
 import ChangeInvestmentTypeModal from './components/ChangeInvestmentType';
@@ -8,53 +7,30 @@ import SelectBox from './components/SelectBox';
 import Table from './components/Table';
 import Tabs from './components/Tabs';
 import {
-  ModalToggleStates,
-  activePage,
-  alertModalState,
-  dataLimitState,
-  selectedDataState,
-  sortedDataState,
-} from './utils/states';
-import {
   approvalOptions,
   dateTimeOptions,
   statusOption,
   viewLimitOptions,
 } from './utils/statics';
-import { useState } from 'react';
 import tableData from './utils/tableData';
 import RejectionModal from './components/RejectionModal';
 import moment from 'moment';
+import ContextProvider, { BaseContext } from './utils/Context';
+import { useContext } from 'react';
 
 function App() {
-  const [alertToggleState, setAlertModalState] = useState(false);
-  const [rejectionModalState, setRejectionModalState] = useState(false);
-  const [documentToggleState, setDocumentModalState] = useState(false);
-  const [investmentTypeToggleState, setInvestmentTypeModalState] =
-    useState(false);
+  const {
+    selectedData,
+    setAlertModalContent,
+    setInvestmentTypeModalState,
+    setAlertModalState,
+    setRejectionModalState,
+    setDocumentModalState,
+    setPerPageDataLimit,
+  } = useContext(BaseContext);
 
   return (
-    <ModalToggleStates.Provider
-      value={{
-        alertToggleState,
-        documentToggleState,
-        investmentTypeToggleState,
-        rejectionModalState,
-
-        toggleRejectionModal: (e: boolean) => {
-          setRejectionModalState(e);
-        },
-        toggleAlert: (e: boolean) => {
-          setAlertModalState(e);
-        },
-        toggleDocumentModal: (e: boolean) => {
-          setDocumentModalState(e);
-        },
-        toggleInvestTypeModal: (e: boolean) => {
-          setInvestmentTypeModalState(e);
-        },
-      }}
-    >
+    <ContextProvider>
       <section className='container py-6 flex flex-col flex-wrap justify-start items-start '>
         <div className='flex w-full py-3 border-transparent border border-b-[#D7D8DA] flex-row items-center justify-start gap-6 '>
           <h1 className='text-[#0B101A] text-2xl font-bold leading-7 '>
@@ -103,20 +79,13 @@ function App() {
                       moment(nextItem.승인일시.title).unix()
                   );
                 }
-                console.log('🚀 ~ file: App.tsx:93 ~ tempData:', tempData);
-                batch(() => {
-                  activePage.value = 1;
-                  sortedDataState.value = [...tempData];
-                });
               }}
             />
             <SelectBox
               dataArr={viewLimitOptions}
               onChangeOptionCb={(e) => {
-                batch(() => {
-                  activePage.value = 1;
-                  dataLimitState.value = parseInt(e.value.toString());
-                });
+                const pageLimit = parseInt(e.value.toString());
+                setPerPageDataLimit(pageLimit);
               }}
             />
           </div>
@@ -131,53 +100,57 @@ function App() {
 
           <div className='flex gap-1 justify-start items-center'>
             <p className='text-[#5A616A] text-sm mr-4 whitespace-nowrap leading-[16px] '>
-              선택한 {selectedDataState.value.length}건
+              선택한 {selectedData.length}건
             </p>
 
             <SelectBox
               dataArr={statusOption}
               onChangeOptionCb={() => {
-                if (!selectedDataState.value.length) {
+                if (!selectedData.length) {
+                  setAlertModalContent({
+                    text: '선택된 신청건이 없습니다.',
+                    type: 'warn',
+                  });
                   setAlertModalState(true);
-                  alertModalState.value.text = '선택된 신청건이 없습니다.';
-                  alertModalState.value.type = 'warn';
                 }
               }}
             />
             <Button
               actionCb={() => {
-                if (selectedDataState.value.length) {
-                  const selectedUsers = tableData.filter((item) =>
-                    selectedDataState.value.includes(item.id)
+                if (selectedData.length) {
+                  const selectedTableData = tableData.filter((item) =>
+                    selectedData.includes(item.id)
                   );
-                  const hasApprovedUsers = selectedUsers.find(
+                  const hasApprovedUsers = selectedTableData.find(
                     (item) => item.승인여부.title === '승인완료'
                   );
-                  const hasRejectedUsers = selectedUsers.find(
+                  const hasRejectedUsers = selectedTableData.find(
                     (item) => item.승인여부.title === '승인거부'
                   );
                   if (hasApprovedUsers) {
+                    setAlertModalContent({
+                      text: '이미 승인 완료된 회원입니다.',
+                      type: 'warn',
+                    });
                     setAlertModalState(true);
-                    alertModalState.value.text = '이미 승인 완료된 회원입니다.';
-                    alertModalState.value.type = 'warn';
                   } else if (hasRejectedUsers) {
+                    setAlertModalContent({
+                      text: '이미 승인 거부된 회원입니다.',
+                      type: 'warn',
+                    });
                     setAlertModalState(true);
-                    alertModalState.value.text = '이미 승인 거부된 회원입니다.';
-                    alertModalState.value.type = 'warn';
                   } else {
                     setRejectionModalState(true);
                   }
                 } else {
                   setAlertModalState(true);
-                  alertModalState.value.text = '선택된 신청건이 없습니다.';
-                  alertModalState.value.type = 'warn';
                 }
               }}
               title='저장'
             />
           </div>
         </div>
-        <Table />
+        {/* <Table /> */}
         <Pagination />
         <div className='flex flex-row flex-wrap w-full justify-start gap-4 items-center'>
           <h4 className='w-full text-left'>Modal Buttons</h4>
@@ -193,7 +166,7 @@ function App() {
       <AlertModal />
       <ChangeInvestmentTypeModal />
       <RejectionModal />
-    </ModalToggleStates.Provider>
+    </ContextProvider>
   );
 }
 

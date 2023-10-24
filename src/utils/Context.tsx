@@ -1,4 +1,4 @@
-import { ReactNode, createContext, useState } from 'react';
+import { ReactNode, createContext, useEffect, useState } from 'react';
 import { viewLimitOptions } from './statics';
 import { alertModalContent, baseContext, tableDataType } from './types';
 
@@ -8,8 +8,8 @@ export const BaseContext = createContext<baseContext>({
     text: '',
     type: '',
     cancellable: false,
-    cancelAction: (e?: any) => {},
-    approveAction: (e?: any) => {},
+    cancelAction: () => {},
+    approveAction: () => {},
   },
   tableDataState: [],
   documentToggleState: false,
@@ -18,6 +18,8 @@ export const BaseContext = createContext<baseContext>({
   rejectionModalState: false,
   activePage: 1,
   perPageDataLimit: viewLimitOptions[0].value,
+  selectedData: [],
+  setSelectedData: () => {},
   setAlertModalContent: () => {},
   setTableDataState: () => {},
   setRejectionModalState: () => {},
@@ -31,6 +33,7 @@ export const BaseContext = createContext<baseContext>({
 
 const ContextProvider = ({ children }: { children: ReactNode }) => {
   const [activePage, setActivePage] = useState<number>(1);
+  const [selectedData, setSelectedData] = useState<string[]>([]);
   const [perPageDataLimit, setPerPageDataLimit] = useState<number>(
     parseInt(viewLimitOptions[0].value.toString())
   );
@@ -43,15 +46,32 @@ const ContextProvider = ({ children }: { children: ReactNode }) => {
       text: '',
       type: '',
       cancellable: false,
-      cancelAction: (e?: any) => {},
-      approveAction: (e?: any) => {},
+      cancelAction: () => {},
+      approveAction: () => {},
     }
   );
-  const [tableDataState, setTableDataState] = useState<tableDataType[]>([]);
+  const [tableDataState, setTableDataState] = useState<tableDataType[][]>([]);
   const [rejectionModalState, setRejectionModalState] = useState(false);
   const [documentToggleState, setDocumentModalState] = useState(false);
   const [investmentTypeToggleState, setInvestmentTypeModalState] =
     useState(false);
+
+  useEffect(() => {
+    const tempNestedArr: tableDataType[][] = [];
+
+    const tempData = [...tableDataState];
+
+    for (let i = 0; i < tempData.length; i += perPageDataLimit) {
+      const chunk = tempData.slice(i, i + perPageDataLimit);
+      tempNestedArr.push(chunk);
+    }
+    setTableDataState(tempNestedArr);
+    setPerPageDataLimit(tempNestedArr.length);
+    console.log(
+      '🚀 ~ file: Context.tsx:65 ~ useEffect ~ perPageDataLimit:',
+      perPageDataLimit
+    );
+  }, [perPageDataLimit]);
 
   return (
     <BaseContext.Provider
@@ -65,6 +85,8 @@ const ContextProvider = ({ children }: { children: ReactNode }) => {
         rejectionModalState,
         activePage,
         perPageDataLimit,
+        selectedData,
+        setSelectedData,
         setAlertModalContent,
         setTableDataState,
         setRejectionModalState,

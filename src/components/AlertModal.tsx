@@ -1,17 +1,14 @@
 import { Dialog, Transition } from '@headlessui/react';
 import { FC, Fragment, useContext } from 'react';
 import Button from './Button';
-import { ModalToggleStates, alertModalState } from '../utils/states';
+import { BaseContext } from '../utils/Context';
 
 const AlertModal: FC = () => {
-  const { value } = alertModalState;
-
-  const { type, text, cancellable, approveAction, cancelAction } = value;
-
-  const { alertToggleState, toggleAlert } = useContext(ModalToggleStates);
+  const { alertToggleState, setAlertModalState, alertModalContent } =
+    useContext(BaseContext);
 
   const closeModal = () => {
-    toggleAlert(false);
+    setAlertModalState(false);
   };
   return (
     <Transition appear show={alertToggleState} as={Fragment}>
@@ -43,14 +40,14 @@ const AlertModal: FC = () => {
                 <div className='w-full flex justify-between items-center '>
                   <div
                     className={`w-[30px] h-[30px] flex justify-center items-center rounded-full border-4 ${
-                      type === 'success'
+                      alertModalContent.type === 'success'
                         ? 'bg-[#D1FADF] text-[#039855] border-[#D1FADF]/50 '
                         : 'bg-[#FEF0C7] text-[#D46B08] border-[#FEF0C7]/50 '
                     } `}
                   >
                     <i
                       className={`fa-regular ${
-                        type === 'success'
+                        alertModalContent.type === 'success'
                           ? 'fa-circle-check'
                           : 'fa-exclamation'
                       } `}
@@ -63,21 +60,23 @@ const AlertModal: FC = () => {
                 </div>
                 <div className='w-full flex flex-col gap-8 mt-4 '>
                   <p className='text-lg font-semibold text-[#101828] '>
-                    {text}
+                    {alertModalContent.text}
                   </p>
                   <div className='flex justify-center gap-3 '>
                     <Button
                       title='확인'
                       actionCb={() => {
-                        type ? approveAction() : closeModal();
+                        alertModalContent.approveAction
+                          ? alertModalContent.approveAction()
+                          : closeModal();
                       }}
                     />
-                    {cancellable ? (
+                    {alertModalContent.cancellable ? (
                       <Button
                         variant='outlined'
                         title='취소'
                         actionCb={() => {
-                          cancelAction();
+                          alertModalContent.cancelAction?.();
                         }}
                       />
                     ) : (

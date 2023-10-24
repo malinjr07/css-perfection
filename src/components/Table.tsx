@@ -1,18 +1,20 @@
-import { FC, useState } from 'react';
+import { FC, useContext, useEffect, useState } from 'react';
 import { tableRow } from '../utils/tableData';
-
-import {
-  activePage,
-  renderDataState,
-  selectedDataState,
-} from '../utils/states';
-import { computed } from '@preact/signals-react';
+import { tableDataType } from '../utils/types';
+import { BaseContext } from '../utils/Context';
 
 const Table: FC = () => {
-  const tableData = computed(
-    () => renderDataState.value[activePage.value - 1]
-  ).value;
-  const [checkedData, setCheckedData] = useState<string[]>([]);
+  const { setSelectedData, selectedData, tableDataState, activePage } =
+    useContext(BaseContext);
+  console.log('🚀 ~ file: Table.tsx:8 ~ tableDataState:', tableDataState);
+  const [tableData, setTableData] = useState<tableDataType[]>(
+    tableDataState[activePage]
+  );
+
+  useEffect(() => {
+    setTableData(tableDataState[activePage]);
+  }, [tableDataState, activePage]);
+
   return (
     <>
       <div className='w-full overflow-x-auto'>
@@ -25,8 +27,9 @@ const Table: FC = () => {
                     type='checkbox'
                     name='markDataAll'
                     checked={
-                      tableData.filter((data) => data.active === true)
-                        .length === checkedData.length
+                      tableDataState[activePage].filter(
+                        (data) => data.active === true
+                      ).length === selectedData.length
                     }
                     onChange={(e) => {
                       if (e.target.checked) {
@@ -37,11 +40,9 @@ const Table: FC = () => {
                         activeData.forEach((data) => {
                           tempArr.push(data.id);
                         });
-                        setCheckedData(tempArr);
-                        selectedDataState.value = tempArr;
+                        setSelectedData(tempArr);
                       } else {
-                        setCheckedData([]);
-                        selectedDataState.value = [];
+                        setSelectedData([]);
                       }
                     }}
                     className='opacity-0 -z-10 absolute w-0 h-0 peer'
@@ -72,23 +73,16 @@ const Table: FC = () => {
                   <label htmlFor={data.id} className='relative group'>
                     <input
                       type='checkbox'
-                      checked={!!checkedData.find((el) => el === data.id)}
+                      checked={!!selectedData.find((el) => el === data.id)}
                       onChange={(e) => {
                         if (e.target.checked) {
-                          selectedDataState.value = [
-                            ...selectedDataState.value,
-                            data.id,
-                          ];
-                          setCheckedData((prevValue) => [
-                            ...prevValue,
-                            data.id,
-                          ]);
+                          setSelectedData([...selectedData, data.id]);
                         } else {
-                          const updatedArr = selectedDataState.value.filter(
+                          const updatedArr = selectedData.filter(
                             (item) => item !== data.id
                           );
-                          selectedDataState.value = updatedArr;
-                          setCheckedData(updatedArr);
+
+                          setSelectedData(updatedArr);
                         }
                       }}
                       name='markData'
