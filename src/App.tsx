@@ -6,8 +6,8 @@ import SelectBox from './components/SelectBox';
 import Tabs from './components/Tabs';
 
 import {
-  approvalOptions,
-  dateTimeOptions,
+  filterOptions,
+  sortOptions,
   statusOption,
   viewLimitOptions,
 } from './utils/statics';
@@ -16,6 +16,8 @@ import Table from './components/Table';
 import { alertModalStateType, contextType, tableDataType } from './utils/types';
 import AlertModal from './components/modals/AlertModal';
 import RejectionModal from './components/modals/RejectionModal';
+import ChangeInvestmentTypeModal from './components/modals/ChangeInvestmentType';
+import moment from 'moment';
 
 export const BaseContext = createContext<contextType>({
   setDataLimit: () => {},
@@ -51,22 +53,74 @@ function App() {
   const [rejectionModalView, setRejectionModalView] = useState(false);
   const [investmentModalView, setInvestmentModalView] = useState(false);
   const [investmentDocs, setInvestmentDocs] = useState<File[]>([]);
+  const [filterValue, setFilterValue] = useState<string>(
+    filterOptions[0].value.toString()
+  );
+  const [sortValue, setSortValue] = useState<string>(
+    sortOptions[0].value.toString()
+  );
 
   useEffect(() => {
     const tempNestedArr: any[][] = [];
+    let filteredArr: tableDataType[] = [];
+    /**
+     * Filter Condition
+     */
+    if (filterValue === '승인여부 전체') {
+      filteredArr = [...tableData];
+    } else if (filterValue === '승인대기') {
+      filteredArr = tableData.filter(
+        (item) => item.승인여부.title === '승인대기'
+      );
+    } else if (filterValue === '승인완료') {
+      filteredArr = tableData.filter(
+        (item) => item.승인여부.title === '승인완료'
+      );
+    } else if (filterValue === '승인거부') {
+      filteredArr = tableData.filter(
+        (item) => item.승인여부.title === '승인거부'
+      );
+    }
 
-    if (tableData.length > dataLimit) {
-      for (let i = 0; i < tableData.length; i += dataLimit) {
-        const chunk = tableData.slice(i, i + dataLimit);
+    /**
+     * Sort Condition
+     */
+
+    if (sortValue === '신청일시순') {
+      console.log('sort triggered 1st');
+
+      filteredArr.sort((first, second) => {
+        const sortResult =
+          moment(first.신청일시.title).unix() -
+          moment(second.신청일시.title).unix();
+
+        return sortResult;
+      });
+    } else if (sortValue === '승인일시순') {
+      console.log('sort triggered 2nd');
+
+      filteredArr.sort((first, second) => {
+        const sortResult =
+          moment(first.승인일시.title).unix() -
+          moment(second.승인일시.title).unix();
+
+        return sortResult;
+      });
+    }
+
+    const tempData = [...filteredArr];
+    if (tempData.length > dataLimit) {
+      for (let i = 0; i < tempData.length; i += dataLimit) {
+        const chunk = tempData.slice(i, i + dataLimit);
         tempNestedArr.push(chunk);
       }
 
       setVisibleArr(tempNestedArr[currentPage - 1]);
       setPageLimit(tempNestedArr.length);
     } else {
-      setVisibleArr([tableData]);
+      setVisibleArr([tempData]);
     }
-  }, [dataLimit, currentPage]);
+  }, [dataLimit, currentPage, filterValue, sortValue]);
   return (
     <BaseContext.Provider
       value={{
@@ -123,10 +177,17 @@ function App() {
               </p>
             </div>
             <div className='flex justify-start items-center gap-1 '>
-              <SelectBox dataArr={approvalOptions} />
               <SelectBox
-                dataArr={dateTimeOptions}
-                onChangeOptionCb={() => {}}
+                dataArr={filterOptions}
+                onChangeOptionCb={(e) => {
+                  setFilterValue(e.value.toString());
+                }}
+              />
+              <SelectBox
+                dataArr={sortOptions}
+                onChangeOptionCb={(e) => {
+                  setSortValue(e.value.toString());
+                }}
               />
               <SelectBox
                 dataArr={viewLimitOptions}
@@ -212,7 +273,7 @@ function App() {
           </div>
         </section>
         <AlertModal />
-        {/* <ChangeInvestmentTypeModal />*/}
+        <ChangeInvestmentTypeModal />
         <RejectionModal />
       </>
     </BaseContext.Provider>

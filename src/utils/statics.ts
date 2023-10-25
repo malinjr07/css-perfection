@@ -12,7 +12,7 @@ export const categories: string[] = [
   '1:1문의내역 조회',
 ];
 
-export const approvalOptions: selectOptionType[] = [
+export const filterOptions: selectOptionType[] = [
   {
     value: '승인여부 전체',
     title: '승인여부 전체',
@@ -31,7 +31,7 @@ export const approvalOptions: selectOptionType[] = [
   },
 ];
 
-export const dateTimeOptions: selectOptionType[] = [
+export const sortOptions: selectOptionType[] = [
   {
     title: '신청일시순',
     value: '신청일시순',

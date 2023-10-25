@@ -6,10 +6,20 @@ const tableSingleData: tableDataType = {
   기존유형: { title: '소득적격', size: '100px' },
   신청유형: { title: '개인전문', size: '100px' },
   제출서류: { title: '보기', size: '100px' },
-  신청일시: { title: '2023-01-10 09:00:00', size: '190px' },
+  신청일시: {
+    title: moment(
+      Date.now() + Math.ceil(Math.random() * 10000 + 28196285)
+    ).format('yyyy-mm-DD hh:mm:ss'),
+    size: '190px',
+  },
   승인여부: { title: '', size: '87px' },
   '승인거부 사유': { title: '', size: '372px' },
-  승인일시: { title: '2023-01-10 09:00:00', size: '189px' },
+  승인일시: {
+    title: moment(
+      Date.now() + Math.ceil(Math.random() * 10000 + 24717818885)
+    ).format('yyyy-mm-DD hh:mm:ss'),
+    size: '189px',
+  },
   관리자: { title: '', size: '124px' },
   active: true,
   id: uuidv4(),

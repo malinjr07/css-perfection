@@ -89,6 +89,7 @@ const ChangeInvestmentTypeModal: FC = () => {
                             { title: '여신금융', value: '여신금융' },
                             { title: 'P2P온투', value: 'P2P온투' },
                           ]}
+                          onChangeOptionCb={() => {}}
                         />
                       </div>
                     </div>

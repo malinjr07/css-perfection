@@ -3,6 +3,10 @@ type contextStates = {
   pageLimit: number;
   sortingAttribute: string;
   selectedData: string[];
+  rejectionModalView: boolean;
+  alertModalState: alertModalStateType;
+  investmentModalView: boolean;
+  investmentDocs: File[];
   visibleArr: tableDataType[];
 };
 
@@ -20,14 +24,10 @@ export interface contextType extends contextStates {
   setCurrentPage: (e: contextType['currentPage']) => void;
   setSortingAttribute: (e: contextType['sortingAttribute']) => void;
   setSelectedData: (e: contextType['selectedData']) => void;
-  alertModalState: alertModalStateType;
   setAlertModalState: (e: alertModalStateType) => void;
-  rejectionModalView: boolean;
-  setRejectionModalView: (e: boolean) => void;
-  investmentModalView: boolean;
-  setInvestmentModalView: (e: boolean) => void;
-  investmentDocs: File[];
-  setInvestmentDocs: (e: File[]) => void;
+  setRejectionModalView: (e: contextType['rejectionModalView']) => void;
+  setInvestmentModalView: (e: contextType['investmentModalView']) => void;
+  setInvestmentDocs: (e: contextType['investmentDocs']) => void;
 }
 
 export type tableDataType = {
@@ -38,7 +38,7 @@ export type selectOptionType = { title: string; value: string | number };
 
 export type selectComponentProps = {
   dataArr: selectOptionType[];
-  onChangeOptionCb?: (e: selectOptionType) => void;
+  onChangeOptionCb: (e: selectOptionType) => void;
   className?: string;
   bodyClassName?: string;
 };
