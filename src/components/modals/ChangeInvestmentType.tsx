@@ -1,29 +1,25 @@
 import { Dialog, Transition } from '@headlessui/react';
-import { FC, Fragment, useContext, useRef, useState } from 'react';
+import { FC, Fragment, useContext, useRef } from 'react';
 import Dot from '../Dot';
 import Button from '../Button';
 import SelectBox from '../SelectBox';
 import { BaseContext } from '../../App';
 
 const ChangeInvestmentTypeModal: FC = () => {
-  const [fileState, setFileState] = useState<File[]>([]);
-
   const {
-    investmentTypeToggleState,
-    setInvestmentTypeModalState,
-    setInvestmentFormDocument,
+    investmentModalView,
+    setInvestmentModalView,
+    investmentDocs,
+    setInvestmentDocs,
     setAlertModalState,
-    setAlertModalContent,
-    investmentFormDocument,
   } = useContext(BaseContext);
   const closeModal = () => {
-    setInvestmentTypeModalState(false);
-    setFileState([]);
+    setInvestmentModalView(false);
   };
   const fileRef = useRef<HTMLInputElement>(null);
 
   return (
-    <Transition appear show={investmentTypeToggleState} as={Fragment}>
+    <Transition appear show={investmentModalView} as={Fragment}>
       <Dialog as='div' className='relative z-10' onClose={closeModal}>
         <Transition.Child
           as={Fragment}
@@ -112,7 +108,7 @@ const ChangeInvestmentTypeModal: FC = () => {
                         >
                           파일 선택
                         </button>
-                        {fileState?.map((file, id) => (
+                        {investmentDocs?.map((file, id) => (
                           <div
                             className='flex gap-1 items-center'
                             key={file?.name + (Math.random() * 10).toString()}
@@ -120,11 +116,9 @@ const ChangeInvestmentTypeModal: FC = () => {
                             <p className='text-[#5A616A]'>{file?.name}</p>
                             <button
                               onClick={() => {
-                                const tempArr = [...fileState];
+                                const tempArr = [...investmentDocs];
                                 tempArr.splice(id, 1);
-                                setFileState(tempArr);
-
-                                setInvestmentFormDocument(tempArr);
+                                setInvestmentDocs(tempArr);
                               }}
                             >
                               <i className='fa-solid fa-circle-xmark text-[#DDE0E5] '></i>
@@ -159,38 +153,36 @@ const ChangeInvestmentTypeModal: FC = () => {
                             );
 
                             if (invalidFormat) {
-                              console.log(
-                                'invalidFormat Detected:',
-                                invalidFormat
-                              );
-                              setAlertModalState(true);
+                              setAlertModalState({
+                                visibleState: true,
+                                text: 'jpg, jpeg, gif, png, pdf 파일만 등록 가능합니다.',
+                              });
                             } else if (largeFile) {
-                              setAlertModalState(true);
-
-                              setAlertModalContent({
+                              setAlertModalState({
                                 text: '최대 100MB까지 등록 가능합니다.',
+                                visibleState: true,
                               });
                             } else {
                               let count = 0;
-                              let currentLength = investmentFormDocument.length;
+                              let currentLength = investmentDocs.length;
                               if (currentLength >= 10) {
                                 console.log(
                                   'File Limit Exceed!',
-                                  investmentFormDocument
+                                  investmentDocs
                                 );
-                                setAlertModalState(true);
-                                setAlertModalContent({
+
+                                setAlertModalState({
                                   text: '최대 10개까지 등록 가능합니다.',
+                                  visibleState: true,
                                 });
                               } else {
-                                const tempArr = [...fileState];
+                                const tempArr = [...investmentDocs];
                                 while (currentLength <= 10 && files[count]) {
-                                  investmentFormDocument.push(files[count]);
                                   tempArr.push(files[count]);
                                   currentLength++;
                                   count++;
                                 }
-                                setFileState(tempArr);
+                                setInvestmentDocs(tempArr);
                               }
                             }
                           }}

@@ -31,6 +31,10 @@ export const BaseContext = createContext<contextType>({
   setAlertModalState: () => {},
   rejectionModalView: false,
   setRejectionModalView: () => {},
+  investmentModalView: false,
+  setInvestmentModalView: () => {},
+  investmentDocs: [],
+  setInvestmentDocs: () => {},
 });
 
 function App() {
@@ -45,6 +49,8 @@ function App() {
     text: '',
   });
   const [rejectionModalView, setRejectionModalView] = useState(false);
+  const [investmentModalView, setInvestmentModalView] = useState(false);
+  const [investmentDocs, setInvestmentDocs] = useState<File[]>([]);
 
   useEffect(() => {
     const tempNestedArr: any[][] = [];
@@ -77,6 +83,10 @@ function App() {
         setAlertModalState,
         rejectionModalView,
         setRejectionModalView,
+        investmentModalView,
+        setInvestmentModalView,
+        investmentDocs,
+        setInvestmentDocs,
       }}
     >
       <>

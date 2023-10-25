@@ -24,6 +24,10 @@ export interface contextType extends contextStates {
   setAlertModalState: (e: alertModalStateType) => void;
   rejectionModalView: boolean;
   setRejectionModalView: (e: boolean) => void;
+  investmentModalView: boolean;
+  setInvestmentModalView: (e: boolean) => void;
+  investmentDocs: File[];
+  setInvestmentDocs: (e: File[]) => void;
 }
 
 export type tableDataType = {
