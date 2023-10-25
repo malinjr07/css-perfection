@@ -72,6 +72,10 @@
     @apply align-middle;
   }
 
+  html {
+    @apply scroll-smooth;
+  }
+
   body {
     @apply bg-white font-normal overflow-x-hidden;
   }
