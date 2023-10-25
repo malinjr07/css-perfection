@@ -19,6 +19,13 @@ export type alertModalStateType = {
   approveAction?: (e?: any) => void;
 };
 
+export type buttonProps = {
+  isLarge?: true;
+  actionCb: () => void;
+  title: string;
+  variant?: 'outlined';
+};
+
 export interface contextType extends contextStates {
   setDataLimit: (e: number) => void;
   setCurrentPage: (e: contextType['currentPage']) => void;
