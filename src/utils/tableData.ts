@@ -28,7 +28,7 @@ const tableSingleData: tableDataType = {
 
 const tableData: tableDataType[] = [];
 
-for (let count = 1; count <= 300; count++) {
+for (let count = 1; count <= 2000; count++) {
   const status = Math.floor(Math.random() * 3);
   const manager = Math.floor(Math.random() * 2);
   const activeRandom = Math.floor(Math.random() * 2);
