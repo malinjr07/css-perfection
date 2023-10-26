@@ -267,10 +267,6 @@ function App() {
           </div>
           <Table />
           <Pagination />
-          <div className='flex flex-row flex-wrap w-full justify-start gap-4 items-center'>
-            <h4 className='w-full text-left'>Modal Buttons</h4>
-            <Button actionCb={() => {}} isLarge title='Document Modal' />
-          </div>
         </section>
         <AlertModal />
         <ChangeInvestmentTypeModal />
