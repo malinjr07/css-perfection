@@ -7,17 +7,13 @@ const tableSingleData: tableDataType = {
   신청유형: { title: '개인전문', size: '100px' },
   제출서류: { title: '보기', size: '100px' },
   신청일시: {
-    title: moment(
-      Date.now() + Math.ceil(Math.random() * 10000 + 28196285)
-    ).format('yyyy-mm-DD hh:mm:ss'),
+    title: moment(Date.now() + Math.ceil(Math.random() * 10000 + 28196285)),
     size: '190px',
   },
   승인여부: { title: '', size: '87px' },
   '승인거부 사유': { title: '', size: '372px' },
   승인일시: {
-    title: moment(
-      Date.now() + Math.ceil(Math.random() * 10000 + 24717818885)
-    ).format('yyyy-mm-DD hh:mm:ss'),
+    title: moment(Date.now() + Math.ceil(Math.random() * 10000 + 24717818885)),
     size: '189px',
   },
   관리자: { title: '', size: '124px' },
@@ -40,10 +36,10 @@ for (let count = 1; count <= 300; count++) {
   tempObj.id = uuidv4();
   tempObj.승인일시.title = moment(
     Date.now() + Math.ceil(Math.random() * 10000 + 285)
-  ).format('yyyy-mm-DD hh:mm:ss');
+  );
   tempObj.신청일시.title = moment(
     Date.now() + Math.ceil(Math.random() * 10000 + 2885)
-  ).format('yyyy-mm-DD hh:mm:ss');
+  );
 
   tempObj['승인거부 사유'].title =
     reason === 1

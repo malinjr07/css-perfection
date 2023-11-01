@@ -91,8 +91,8 @@ function App() {
 
       filteredArr.sort((first, second) => {
         const sortResult =
-          moment(first.신청일시.title).unix() -
-          moment(second.신청일시.title).unix();
+          moment(first.신청일시.title).valueOf() -
+          moment(second.신청일시.title).valueOf();
 
         return sortResult;
       });
@@ -101,8 +101,8 @@ function App() {
 
       filteredArr.sort((first, second) => {
         const sortResult =
-          moment(first.승인일시.title).unix() -
-          moment(second.승인일시.title).unix();
+          moment(first.승인일시.title).valueOf() -
+          moment(second.승인일시.title).valueOf();
 
         return sortResult;
       });

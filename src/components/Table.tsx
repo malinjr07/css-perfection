@@ -1,6 +1,7 @@
 import { FC, useContext } from 'react';
 import { tableRow } from '../utils/tableData';
 import { BaseContext } from '../App';
+import moment from 'moment';
 
 const Table: FC = () => {
   const { selectedData, setSelectedData, visibleArr } = useContext(BaseContext);
@@ -128,7 +129,11 @@ const Table: FC = () => {
                             : ''
                         }
                       >
-                        {data[key].title}
+                        {['신청일시', '승인일시'].includes(key)
+                          ? moment(data[key].title).format(
+                              'yyyy-mm-DD hh:mm:ss'
+                            )
+                          : data[key].title}
                       </span>
                     )}
                   </td>
