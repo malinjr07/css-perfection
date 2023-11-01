@@ -1,4 +1,5 @@
 type contextStates = {
+  dataLimit: number;
   currentPage: number;
   pageLimit: number;
   sortingAttribute: string;

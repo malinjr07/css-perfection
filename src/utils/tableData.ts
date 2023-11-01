@@ -19,7 +19,6 @@ const tableSingleData: tableDataType = {
   관리자: { title: '', size: '124px' },
   active: true,
   id: uuidv4(),
-  serial: 0,
 };
 
 const tableData: tableDataType[] = [];
@@ -47,7 +46,6 @@ for (let count = 1; count <= 2000; count++) {
       : '';
 
   tempObj.관리자.title = manager === 1 ? '김관리자' : '';
-  tempObj.serial = count;
 
   tempObj.승인여부.title =
     status === 0
@@ -60,6 +58,16 @@ for (let count = 1; count <= 2000; count++) {
 
   tableData.push(tempObj);
 }
+
+tableData.sort((first, second) => {
+  const sortResult =
+    moment(first.신청일시.title).valueOf() -
+    moment(second.신청일시.title).valueOf();
+
+  return sortResult;
+});
+
+tableData.forEach((item, id) => (item.serial = id + 1));
 
 const tableRow: string[] = [];
 

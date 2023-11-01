@@ -21,6 +21,7 @@ import moment from 'moment';
 
 export const BaseContext = createContext<contextType>({
   setDataLimit: () => {},
+  dataLimit: 1,
   currentPage: 1,
   pageLimit: 1,
   setCurrentPage: () => {},
@@ -125,6 +126,7 @@ function App() {
     <BaseContext.Provider
       value={{
         setDataLimit,
+        dataLimit,
         currentPage,
         pageLimit,
         setCurrentPage,
